@@ -125,6 +125,7 @@ void publishDependum_soilMoistureData_CommThreadTask(void *pvParameters)
     for (;;)
     {
         // Create a JSON object for the dependum
+        Serial.println("Running Thread 'publishDependum_soilMoistureData_CommThreadTask'");
         JSONVar dependumJson;
         dependumJson["soilMoisture"] = soilMoistureData_CommThread_data_structure.soilMoisture;
 
@@ -134,10 +135,10 @@ void publishDependum_soilMoistureData_CommThreadTask(void *pvParameters)
         soilMoistureData_CommThreadMqttClient.publish(soilMoistureData_CommThread_topic, dependumMessage.c_str()); // Publish message
         if (debug)
         {
-            Serial.println("Dependum published successfully for Soil Moisture Data - Comm Thread!");
-            Serial.print("Topic: ");
+            Serial.println("====Dependum published successfully for Soil Moisture Data - Comm Thread!");
+            Serial.print("====Topic: ");
             Serial.println(soilMoistureData_CommThread_topic);
-            Serial.print("Message: ");
+            Serial.print("====Message: ");
             Serial.println(dependumMessage);
         }
         else
@@ -171,11 +172,12 @@ bool analyzeBatteryUsage()
     //  * None specified.
     // Hardware Resource Assigned:
     // Set output parameters
-    analyzeBatteryUsage_energyLevel = getBatteryCharge(); // Nivel de energ�a de la bater�a del m�dulo.
-    Serial.print("Battery charge: ");
-    Serial.println(analyzeBatteryUsage_energyLevel);
-
+    Serial.println("===>Running Function 'analyzeBatteryUsage'");
     // --- Your code goes here ---
+
+    analyzeBatteryUsage_energyLevel = getBatteryCharge(); // Nivel de energ�a de la bater�a del m�dulo.
+    Serial.print("========Battery charge: ");
+    Serial.println(analyzeBatteryUsage_energyLevel);
 
     return true;
 
@@ -196,8 +198,10 @@ bool publishMoistureData(double soilMoisture)
     // Hardware Resource Assigned:
     // Set output parameters
 
+    Serial.println("===>Running Function 'publishMoistureData'");
     // --- Your code goes here ---
-
+    Serial.print("========Publishing this soil moisture: ");
+    Serial.println(soilMoisture);
     soilMoistureData_CommThread_data_structure.soilMoisture = soilMoisture;
 
     return true;
@@ -224,13 +228,14 @@ bool collectSoilMoistureData(int collectSoilMoistureData_operation_mode = 0)
     // Set output parameters
 
     // --- Your code goes here ---
+    Serial.println("===>Running Function 'collectSoilMoistureData'");
 
     switch (collectSoilMoistureData_operation_mode)
     {
     case 0: // Bajo consumo - Depende de que la bater�a posea un nivel de energ�a  bajo, lo cual implica la obtenci�n de una sola muestra de temperatura  por ciclo, con una fiabilidad de muestra baja, pero con un consumo  m�nimo de energ�a.
         // Your logic for Bajo consumo goes here
         collectSoilMoistureData_soilMoisture = dht.readHumidity();
-        Serial.print("Instant Soil Moisture obtained: ");
+        Serial.print("========Instant Soil Moisture obtained: ");
         Serial.println(collectSoilMoistureData_soilMoisture);
         break;
     case 1: // Alto Consumo - Depende de que la bater�a posea un nivel de energ�a  alto, lo cual implica un uso menos conservador de energ�a, y por lo  tanto una muestra m�s precisa promediando 10 mediciones consecutivas,  con una fiabilidad de muestra alta.
@@ -240,7 +245,7 @@ bool collectSoilMoistureData(int collectSoilMoistureData_operation_mode = 0)
             aux += dht.readHumidity();
         }
         collectSoilMoistureData_soilMoisture = aux / 10;
-        Serial.print("Average Soil Moisture obtained: ");
+        Serial.print("========Average Soil Moisture obtained: ");
         Serial.println(collectSoilMoistureData_soilMoisture);
         break;
     default:
@@ -268,6 +273,7 @@ bool changeEnergyMode(double energyLevel)
     // Set output parameters
 
     // --- Your code goes here ---
+    Serial.println("===>Running Function 'changeEnergyMode'");
 
     if (energyLevel < 50)
     {
@@ -277,6 +283,8 @@ bool changeEnergyMode(double energyLevel)
     {
         monitorSoilMoisture_operation_mode = 1;
     }
+    Serial.print("========monitorSoilMoisture_operation_mode = ");
+    Serial.println(monitorSoilMoisture_operation_mode);
 
     return true;
 
@@ -300,11 +308,11 @@ void monitorSoilMoistureTask(void *pvParameters)
 
     for (;;)
     {
+        Serial.println("Running Thread 'monitorSoilMoistureTask'");
         // --- Your code goes here ---
         // Evaluate the state of monitorSoilMoisture
 
-        double soilMoisture = 0.0;
-        monitorSoilMoisture_GoalAchieved = (publishMoistureData(soilMoisture) && collectSoilMoistureData());
+        double soilMoisture = collectSoilMoistureData_soilMoisture;
 
         switch (monitorSoilMoisture_operation_mode)
         {
@@ -344,10 +352,13 @@ void optimizeResourcesTask(void *pvParameters)
 
     for (;;)
     {
+        Serial.println("Running Thread 'optimizeResourcesTask'");
         // --- Your code goes here ---
         // Evaluate the state of optimizeResources
 
         double energyLevel = analyzeBatteryUsage_energyLevel;
+        Serial.print("====Energy Level: ");
+        Serial.println(energyLevel);
         optimizeResources_GoalAchieved = (analyzeBatteryUsage() && changeEnergyMode(energyLevel));
 
         // --- Your code ends here ---

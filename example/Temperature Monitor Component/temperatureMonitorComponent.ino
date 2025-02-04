@@ -318,7 +318,7 @@ void monitorGreenhouseTemperatureTask(void *pvParameters)
         switch (monitorGreenhouseTemperature_operation_mode)
         {
         case 0: // Bajo consumo - Depende de que la bater�a posea un nivel de energ�a  bajo, lo cual implica la obtenci�n de una sola muestra de temperatura  por ciclo, con una fiabilidad de muestra baja, pero con un consumo  m�nimo de energ�a.
-            monitorGreenhouseTemperature_GoalAchieved = (publishTemperatureData(greenhouseTemp) && collectTemperatureData());
+            monitorGreenhouseTemperature_GoalAchieved = (publishTemperatureData(greenhouseTemp) && collectTemperatureData(0));
             break;
         case 1: // Alto Consumo - Depende de que la bater�a posea un nivel de energ�a  alto, lo cual implica un uso menos conservador de energ�a, y por lo  tanto una muestra m�s precisa promediando 10 mediciones consecutivas,  con una fiabilidad de muestra alta.
             monitorGreenhouseTemperature_GoalAchieved = (publishTemperatureData(greenhouseTemp) && collectTemperatureData(1));
