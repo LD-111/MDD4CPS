@@ -205,7 +205,7 @@ bool changeSoilMoisture(double soilMoistureReferenceValue, int changeSoilMoistur
     //     Parent ID: U5gbfCX47OS8Pz70eV5W-3
     //     Description: Se utilizar� un pin digital para seleccionar la especie en cultivo. 0 es  para tomate, y 1 para lechuga. Se debe implementar el conexionado  mediante dip switch para la selecci�n.
     // Set output parameters
-    Serial.println("===>Running Function: 'analyzeBatteryUsage'");
+    Serial.println("===>Running Function 'analyzeBatteryUsage'");
 
     // --- Your code goes here ---
     Serial.print("========Reference Soil Moisture = ");
@@ -262,7 +262,7 @@ bool analyzeBatteryUsage()
     //  * None specified.
     // Hardware Resource Assigned:
     // Set output parameters
-    Serial.println("===>Running Function: 'analyzeBatteryUsage'");
+    Serial.println("===>Running Function 'analyzeBatteryUsage'");
     analyzeBatteryUsage_energyLevel = getBatteryCharge(); // Nivel de energ�a de la bater�a del m�dulo.
     Serial.print("========Battery charge: ");
     Serial.println(analyzeBatteryUsage_energyLevel);
@@ -287,7 +287,7 @@ bool checkSoilMoistureLevels()
     //  * None specified.
     // Hardware Resource Assigned:
     // Set output parameters
-    Serial.println("===>Running Function: 'checkSoilMoistureLevels'");
+    Serial.println("===>Running Function 'checkSoilMoistureLevels'");
     checkSoilMoistureLevels_soilMoisture = soilMoistureData_ListenerThread_data_structure.soilMoisture; // Nivel de humedad de la planta correspondiente.
     Serial.print("========Current Moisture Levels: ");
     Serial.println(checkSoilMoistureLevels_soilMoisture);
@@ -311,7 +311,7 @@ bool changeEnergyMode(double energyLevel)
     //  * None specified.
     // Hardware Resource Assigned:
     // Set output parameters
-    Serial.println("===>Running Function: 'changeEnergyMode'");
+    Serial.println("===>Running Function 'changeEnergyMode'");
 
     // --- Your code goes here ---
 
@@ -351,7 +351,7 @@ void maintainSoilMoistureLevelsTask(void *pvParameters)
         // --- Your code goes here ---
         // Evaluate the state of maintainSoilMoistureLevels
 
-        Serial.println("Running Thread: 'maintainSoilMoistureLevelsTask'");
+        Serial.println("Running Thread 'maintainSoilMoistureLevelsTask'");
         double soilMoistureReferenceValue = DEFAULT_SOIL_MOISTURE;
         int dipValue = readDipSwitches();
         Serial.print("====Dip Switch Value: ");
@@ -399,7 +399,7 @@ void optimizeResourcesTask(void *pvParameters)
     //  * - "[{ "softgoal_id": "tc0aXw5la06j1g5yClUv-5", "name": "Resource Efficiency", "contribution": "help"}]"
     // ----------------------------------------------------------
 
-    Serial.println("===>Running Function: 'optimizeResourcesTask'");
+    Serial.println("Running Thread 'optimizeResourcesTask'");
     for (;;)
     {
         // --- Your code goes here ---
