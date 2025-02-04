@@ -488,8 +488,8 @@
   <!-- Match any object of type resource, softgoal, goal, or task -->
   <xsl:template match="object[@type=('resource', 'softgoal', 'goal', 'task') and (mxCell/@parent='1')]">
     
-    <xsl:variable name="dependeeId" select="//object[@type='dependency-link' and (mxCell/@target = current()/@id)]/mxCell/@source"/>
-    <xsl:variable name="dependerId" select="//object[@type='dependency-link' and (mxCell/@source = current()/@id)]/mxCell/@target"/>
+    <xsl:variable name="dependeeId" select="//object[@type='dependency-link' and (mxCell/@source = current()/@id)]/mxCell/@target"/>
+    <xsl:variable name="dependerId" select="//object[@type='dependency-link' and (mxCell/@target = current()/@id)]/mxCell/@source"/>
     <xsl:variable name="isDependerCPC">
       <xsl:call-template name="check-cpc-ownership">
         <xsl:with-param name="objectId" select="$dependerId" />

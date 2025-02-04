@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<mxfile host="app.diagrams.net" agent="Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36" version="26.0.4">
+<mxfile host="app.diagrams.net" agent="Mozilla/5.0 (X11; Linux x86_64; rv:134.0) Gecko/20100101 Firefox/134.0" version="26.0.11">
   <diagram name="Greenhouse monitoring system" id="eHetnX6oBnYGbTIQLsZm">
-    <mxGraphModel dx="1434" dy="393" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="0" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+    <mxGraphModel dx="2049" dy="670" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="0" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
@@ -219,20 +219,11 @@
             <mxGeometry x="446" y="1312" width="104" height="40" as="geometry" />
           </mxCell>
         </object>
-        <object label="D" type="dependency-link" id="EhskmBOlh9XUoAK4D_Mz-27">
-          <mxCell style="endArrow=classic;html=1;rounded=0;edgeStyle=orthogonalEdgeStyle;curved=1;endFill=0;endSize=11;fontSize=16;" parent="1" source="EhskmBOlh9XUoAK4D_Mz-26" target="b_b95VF1LTJlwQwtALbD-64" edge="1">
-            <mxGeometry x="-0.2551" y="22" width="50" height="50" relative="1" as="geometry">
-              <mxPoint x="668" y="1231" as="sourcePoint" />
-              <mxPoint x="722" y="1231" as="targetPoint" />
-              <mxPoint x="-1" as="offset" />
-            </mxGeometry>
-          </mxCell>
-        </object>
         <object label="D" type="dependency-link" id="EhskmBOlh9XUoAK4D_Mz-28">
-          <mxCell style="endArrow=classic;html=1;rounded=0;edgeStyle=orthogonalEdgeStyle;curved=1;endFill=0;endSize=11;fontSize=16;" parent="1" source="EhskmBOlh9XUoAK4D_Mz-16" target="EhskmBOlh9XUoAK4D_Mz-26" edge="1">
+          <mxCell style="endArrow=classic;html=1;rounded=0;edgeStyle=orthogonalEdgeStyle;curved=1;endFill=0;endSize=11;fontSize=16;" parent="1" source="EhskmBOlh9XUoAK4D_Mz-26" target="EhskmBOlh9XUoAK4D_Mz-16" edge="1">
             <mxGeometry x="0.0403" y="-6" width="50" height="50" relative="1" as="geometry">
-              <mxPoint x="668" y="1231" as="sourcePoint" />
-              <mxPoint x="722" y="1231" as="targetPoint" />
+              <mxPoint x="722" y="1231" as="sourcePoint" />
+              <mxPoint x="668" y="1231" as="targetPoint" />
               <mxPoint as="offset" />
             </mxGeometry>
           </mxCell>
@@ -839,20 +830,11 @@
             <mxGeometry x="1353" y="994" width="115" height="40" as="geometry" />
           </mxCell>
         </object>
-        <object label="D" type="dependency-link" id="tc0aXw5la06j1g5yClUv-52">
-          <mxCell style="endArrow=classic;html=1;rounded=0;edgeStyle=orthogonalEdgeStyle;curved=1;endFill=0;endSize=11;fontSize=16;" parent="1" source="tc0aXw5la06j1g5yClUv-47" target="tc0aXw5la06j1g5yClUv-45" edge="1">
-            <mxGeometry x="-0.2232" y="9" width="50" height="50" relative="1" as="geometry">
-              <mxPoint x="1586" y="1655" as="sourcePoint" />
-              <mxPoint x="1640" y="1655" as="targetPoint" />
-              <mxPoint as="offset" />
-            </mxGeometry>
-          </mxCell>
-        </object>
         <object label="D" type="dependency-link" id="tc0aXw5la06j1g5yClUv-53">
-          <mxCell style="endArrow=classic;html=1;rounded=0;edgeStyle=orthogonalEdgeStyle;curved=1;endFill=0;endSize=11;fontSize=16;" parent="1" source="cVOCU7CYytCJJ8tOkeac-26" target="tc0aXw5la06j1g5yClUv-47" edge="1">
+          <mxCell style="endArrow=classic;html=1;rounded=0;edgeStyle=orthogonalEdgeStyle;curved=1;endFill=0;endSize=11;fontSize=16;" parent="1" source="tc0aXw5la06j1g5yClUv-47" target="cVOCU7CYytCJJ8tOkeac-26" edge="1">
             <mxGeometry x="-0.0863" y="8" width="50" height="50" relative="1" as="geometry">
-              <mxPoint x="1586" y="1655" as="sourcePoint" />
-              <mxPoint x="1640" y="1655" as="targetPoint" />
+              <mxPoint x="1640" y="1655" as="sourcePoint" />
+              <mxPoint x="1586" y="1655" as="targetPoint" />
               <Array as="points">
                 <mxPoint x="1401" y="1372" />
               </Array>
@@ -861,63 +843,81 @@
           </mxCell>
         </object>
         <object label="D" type="dependency-link" id="tc0aXw5la06j1g5yClUv-54">
-          <mxCell style="endArrow=classic;html=1;rounded=0;edgeStyle=orthogonalEdgeStyle;curved=1;endFill=0;endSize=11;fontSize=16;" parent="1" source="cVOCU7CYytCJJ8tOkeac-26" target="tc0aXw5la06j1g5yClUv-51" edge="1">
+          <mxCell style="endArrow=classic;html=1;rounded=0;edgeStyle=orthogonalEdgeStyle;curved=1;endFill=0;endSize=11;fontSize=16;" parent="1" source="tc0aXw5la06j1g5yClUv-51" target="cVOCU7CYytCJJ8tOkeac-26" edge="1">
             <mxGeometry x="0.2766" y="-68" width="50" height="50" relative="1" as="geometry">
-              <mxPoint x="1586" y="1055" as="sourcePoint" />
-              <mxPoint x="1640" y="1055" as="targetPoint" />
+              <mxPoint x="1640" y="1055" as="sourcePoint" />
+              <mxPoint x="1586" y="1055" as="targetPoint" />
               <Array as="points">
-                <mxPoint x="1791" y="1325" />
                 <mxPoint x="1411" y="1325" />
+                <mxPoint x="1791" y="1325" />
               </Array>
-              <mxPoint as="offset" />
-            </mxGeometry>
-          </mxCell>
-        </object>
-        <object label="D" type="dependency-link" id="tc0aXw5la06j1g5yClUv-55">
-          <mxCell style="endArrow=classic;html=1;rounded=0;edgeStyle=orthogonalEdgeStyle;curved=1;endFill=0;endSize=11;fontSize=16;" parent="1" source="tc0aXw5la06j1g5yClUv-51" target="tc0aXw5la06j1g5yClUv-31" edge="1">
-            <mxGeometry x="0.1559" y="82" width="50" height="50" relative="1" as="geometry">
-              <mxPoint x="1586" y="1055" as="sourcePoint" />
-              <mxPoint x="1640" y="1055" as="targetPoint" />
-              <mxPoint as="offset" />
-            </mxGeometry>
-          </mxCell>
-        </object>
-        <object label="D" type="dependency-link" id="tc0aXw5la06j1g5yClUv-56">
-          <mxCell style="endArrow=classic;html=1;rounded=0;edgeStyle=orthogonalEdgeStyle;curved=1;endFill=0;endSize=11;fontSize=16;" parent="1" source="tc0aXw5la06j1g5yClUv-49" target="EhskmBOlh9XUoAK4D_Mz-7" edge="1">
-            <mxGeometry x="-0.2741" y="-23" width="50" height="50" relative="1" as="geometry">
-              <mxPoint x="1606" y="1990" as="sourcePoint" />
-              <mxPoint x="1660" y="1990" as="targetPoint" />
               <mxPoint as="offset" />
             </mxGeometry>
           </mxCell>
         </object>
         <object label="D" type="dependency-link" id="tc0aXw5la06j1g5yClUv-57">
-          <mxCell style="endArrow=classic;html=1;rounded=0;edgeStyle=orthogonalEdgeStyle;curved=1;endFill=0;endSize=11;fontSize=16;" parent="1" source="cVOCU7CYytCJJ8tOkeac-39" target="tc0aXw5la06j1g5yClUv-49" edge="1">
+          <mxCell style="endArrow=classic;html=1;rounded=0;edgeStyle=orthogonalEdgeStyle;curved=1;endFill=0;endSize=11;fontSize=16;" parent="1" source="tc0aXw5la06j1g5yClUv-49" target="cVOCU7CYytCJJ8tOkeac-39" edge="1">
             <mxGeometry x="-0.0932" y="-14" width="50" height="50" relative="1" as="geometry">
-              <mxPoint x="1348" y="1782" as="sourcePoint" />
-              <mxPoint x="1402" y="1782" as="targetPoint" />
+              <mxPoint x="1402" y="1782" as="sourcePoint" />
+              <mxPoint x="1348" y="1782" as="targetPoint" />
               <mxPoint as="offset" />
             </mxGeometry>
           </mxCell>
         </object>
         <object label="D" type="dependency-link" id="tc0aXw5la06j1g5yClUv-58">
-          <mxCell style="endArrow=classic;html=1;rounded=0;edgeStyle=orthogonalEdgeStyle;curved=1;endFill=0;endSize=11;fontSize=16;" parent="1" source="cVOCU7CYytCJJ8tOkeac-39" target="tc0aXw5la06j1g5yClUv-50" edge="1">
+          <mxCell style="endArrow=classic;html=1;rounded=0;edgeStyle=orthogonalEdgeStyle;curved=1;endFill=0;endSize=11;fontSize=16;" parent="1" source="tc0aXw5la06j1g5yClUv-50" target="cVOCU7CYytCJJ8tOkeac-39" edge="1">
             <mxGeometry x="-0.0711" y="5" width="50" height="50" relative="1" as="geometry">
-              <mxPoint x="1348" y="2262" as="sourcePoint" />
-              <mxPoint x="1402" y="2262" as="targetPoint" />
+              <mxPoint x="1402" y="2262" as="sourcePoint" />
+              <mxPoint x="1348" y="2262" as="targetPoint" />
               <Array as="points">
-                <mxPoint x="1736" y="2093" />
                 <mxPoint x="1456" y="2093" />
+                <mxPoint x="1736" y="2093" />
               </Array>
               <mxPoint x="-1" as="offset" />
             </mxGeometry>
           </mxCell>
         </object>
+        <object label="D" type="dependency-link" id="tc0aXw5la06j1g5yClUv-55">
+          <mxCell style="endArrow=classic;html=1;rounded=0;edgeStyle=orthogonalEdgeStyle;curved=1;endFill=0;endSize=11;fontSize=16;" parent="1" source="tc0aXw5la06j1g5yClUv-31" target="tc0aXw5la06j1g5yClUv-51" edge="1">
+            <mxGeometry x="0.1559" y="82" width="50" height="50" relative="1" as="geometry">
+              <mxPoint x="1640" y="1055" as="sourcePoint" />
+              <mxPoint x="1586" y="1055" as="targetPoint" />
+              <mxPoint as="offset" />
+            </mxGeometry>
+          </mxCell>
+        </object>
+        <object label="D" type="dependency-link" id="tc0aXw5la06j1g5yClUv-52">
+          <mxCell style="endArrow=classic;html=1;rounded=0;edgeStyle=orthogonalEdgeStyle;curved=1;endFill=0;endSize=11;fontSize=16;" parent="1" source="tc0aXw5la06j1g5yClUv-45" target="tc0aXw5la06j1g5yClUv-47" edge="1">
+            <mxGeometry x="-0.2232" y="9" width="50" height="50" relative="1" as="geometry">
+              <mxPoint x="1640" y="1655" as="sourcePoint" />
+              <mxPoint x="1586" y="1655" as="targetPoint" />
+              <mxPoint as="offset" />
+            </mxGeometry>
+          </mxCell>
+        </object>
+        <object label="D" type="dependency-link" id="tc0aXw5la06j1g5yClUv-56">
+          <mxCell style="endArrow=classic;html=1;rounded=0;edgeStyle=orthogonalEdgeStyle;curved=1;endFill=0;endSize=11;fontSize=16;" parent="1" source="EhskmBOlh9XUoAK4D_Mz-7" target="tc0aXw5la06j1g5yClUv-49" edge="1">
+            <mxGeometry x="-0.2741" y="-23" width="50" height="50" relative="1" as="geometry">
+              <mxPoint x="1660" y="1990" as="sourcePoint" />
+              <mxPoint x="1606" y="1990" as="targetPoint" />
+              <mxPoint as="offset" />
+            </mxGeometry>
+          </mxCell>
+        </object>
+        <object label="D" type="dependency-link" id="EhskmBOlh9XUoAK4D_Mz-27">
+          <mxCell style="endArrow=classic;html=1;rounded=0;edgeStyle=orthogonalEdgeStyle;curved=1;endFill=0;endSize=11;fontSize=16;" parent="1" source="b_b95VF1LTJlwQwtALbD-64" target="EhskmBOlh9XUoAK4D_Mz-26" edge="1">
+            <mxGeometry x="-0.2551" y="22" width="50" height="50" relative="1" as="geometry">
+              <mxPoint x="722" y="1231" as="sourcePoint" />
+              <mxPoint x="668" y="1231" as="targetPoint" />
+              <mxPoint x="-1" as="offset" />
+            </mxGeometry>
+          </mxCell>
+        </object>
         <object label="D" type="dependency-link" id="tc0aXw5la06j1g5yClUv-60">
-          <mxCell style="endArrow=classic;html=1;rounded=0;edgeStyle=orthogonalEdgeStyle;curved=1;endFill=0;endSize=11;fontSize=16;" parent="1" source="tc0aXw5la06j1g5yClUv-50" target="tc0aXw5la06j1g5yClUv-9" edge="1">
+          <mxCell style="endArrow=classic;html=1;rounded=0;edgeStyle=orthogonalEdgeStyle;curved=1;endFill=0;endSize=11;fontSize=16;" parent="1" source="tc0aXw5la06j1g5yClUv-9" target="tc0aXw5la06j1g5yClUv-50" edge="1">
             <mxGeometry x="-0.3023" y="33" width="50" height="50" relative="1" as="geometry">
-              <mxPoint x="1502.999999999999" y="2203" as="sourcePoint" />
-              <mxPoint x="1397" y="2213" as="targetPoint" />
+              <mxPoint x="1397" y="2213" as="sourcePoint" />
+              <mxPoint x="1502.999999999999" y="2203" as="targetPoint" />
               <Array as="points">
                 <mxPoint x="1503" y="2587" />
               </Array>
