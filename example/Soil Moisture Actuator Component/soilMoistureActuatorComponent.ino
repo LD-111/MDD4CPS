@@ -14,7 +14,7 @@
 #include <Servo.h>
 
 // Global variables for WiFi and MQTT connectivity
-const char* soilMoistureData_ListenerThreadClientId = "soilMoistureActuatorComponentClient_tc0axw5la06j1g5ycluv_2";
+const char *soilMoistureData_ListenerThreadClientId = "soilMoistureActuatorComponentClient_tc0axw5la06j1g5ycluv_2";
 WiFiClient soilMoistureData_ListenerThreadClient;
 PubSubClient soilMoistureData_ListenerThreadMqttClient(soilMoistureData_ListenerThreadClient);
 
@@ -34,7 +34,7 @@ const double DEFAULT_SOIL_MOISTURE = 90.0; // Default servo position if key is n
 // MQTT topics for this CPC ({CPS_id}/{CPC_id}/{comm_thread_id})
 
 // Listener Topics(Receiver)
-const char* soilMoistureData_ListenerThread_topic = "ehetnx6obnygbtiqlszm_greenhouseMonitoringSystem/cvocu7cyytcjj8tokeac_32/tc0axw5la06j1g5ycluv_50_comm_thread/dependum";
+const char *soilMoistureData_ListenerThread_topic = "ehetnx6obnygbtiqlszm_greenhouseMonitoringSystem/cvocu7cyytcjj8tokeac_32/tc0axw5la06j1g5ycluv_50_comm_thread/dependum";
 
 // Thread Status variables
 bool maintainSoilMoistureLevels_GoalAchieved = false; // Global variable for thread maintainSoilMoistureLevels(ID: tc0aXw5la06j1g5yClUv-3)
@@ -43,125 +43,133 @@ bool optimizeResources_GoalAchieved = false; // Global variable for thread optim
 TaskHandle_t TaskoptimizeResources;
 
 // Function output variables
-double analyzeBatteryUsage_energyLevel = 0.0; // Nivel de energ�a de la bater�a del m�dulo.
+double analyzeBatteryUsage_energyLevel = 0.0;      // Nivel de energ�a de la bater�a del m�dulo.
 double checkSoilMoistureLevels_soilMoisture = 0.0; // Nivel de humedad de la planta correspondiente.
 
 // Global Operation Mode Variables
 int maintainSoilMoistureLevels_operation_mode = 0; // Initial operation mode: Bajo consumo
 
 // Global Data Structures (software resources and/or any dependum)
-struct soilMoistureData_ListenerThread_data_structure {
+struct soilMoistureData_ListenerThread_data_structure
+{
     double soilMoisture; // Nivel de humedad de la planta correspondiente.
 } soilMoistureData_ListenerThread_data_structure;
 
 // Listener Thread Handles
 TaskHandle_t TaskreceiveDependum_soilMoistureData_ListenerThread;
 
-void setup() {
-    if (debug) {
+void setup()
+{
+    if (debug)
+    {
         Serial.begin(9600);
-        while (!Serial);
+        while (!Serial)
+            ;
     }
     connectToWiFi();
 
     // Listener Topics(Receiver)
     mqttSetup(soilMoistureData_ListenerThreadMqttClient, callbacksoilMoistureData_ListenerThread);
     connectToMQTT(soilMoistureData_ListenerThreadMqttClient, soilMoistureData_ListenerThreadClientId, soilMoistureData_ListenerThread_topic);
-    
-    
+
     // Create tasks for the operational goals
     xTaskCreate(
-        maintainSoilMoistureLevelsTask,        // Function to implement the task
-        "maintainSoilMoistureLevelsTask",      // Name of the task
-        512,                      // Stack size (in words, not bytes)
-        NULL,                     // Task input parameter
-        1,                        // Priority of the task
-        &TaskmaintainSoilMoistureLevels        // Task handle
+        maintainSoilMoistureLevelsTask,   // Function to implement the task
+        "maintainSoilMoistureLevelsTask", // Name of the task
+        512,                              // Stack size (in words, not bytes)
+        NULL,                             // Task input parameter
+        1,                                // Priority of the task
+        &TaskmaintainSoilMoistureLevels   // Task handle
     );
     xTaskCreate(
-        optimizeResourcesTask,        // Function to implement the task
-        "optimizeResourcesTask",      // Name of the task
-        512,                      // Stack size (in words, not bytes)
-        NULL,                     // Task input parameter
-        1,                        // Priority of the task
-        &TaskoptimizeResources        // Task handle
+        optimizeResourcesTask,   // Function to implement the task
+        "optimizeResourcesTask", // Name of the task
+        512,                     // Stack size (in words, not bytes)
+        NULL,                    // Task input parameter
+        1,                       // Priority of the task
+        &TaskoptimizeResources   // Task handle
     );
     xTaskCreate(
-        receiveDependum_soilMoistureData_ListenerThreadTask,        // Function to implement the task
-        "receiveDependum_soilMoistureData_ListenerThreadTask",      // Name of the task
-        512,                      // Stack size (in words, not bytes)
-        NULL,                     // Task input parameter
-        1,                        // Priority of the task
-        &TaskreceiveDependum_soilMoistureData_ListenerThread        // Task handle
+        receiveDependum_soilMoistureData_ListenerThreadTask,   // Function to implement the task
+        "receiveDependum_soilMoistureData_ListenerThreadTask", // Name of the task
+        512,                                                   // Stack size (in words, not bytes)
+        NULL,                                                  // Task input parameter
+        1,                                                     // Priority of the task
+        &TaskreceiveDependum_soilMoistureData_ListenerThread   // Task handle
     );
 
     // Start the threads
     vTaskStartScheduler();
 }
 
-void callbacksoilMoistureData_ListenerThread(char* topic, byte* payload, unsigned int length) {
-    Serial.print("Message on Topic 1: ");
+void callbacksoilMoistureData_ListenerThread(char *topic, byte *payload, unsigned int length)
+{
+    Serial.println("Running Callback Function: 'callbacksoilMoistureData_ListenerThread'");
+    Serial.print("====Message on Topic 1: ");
     Serial.print(topic);
     Serial.println(" - ");
     // Parse the incoming JSON message
     StaticJsonDocument<200> doc;
     DeserializationError error = deserializeJson(doc, payload);
 
-    if (!error) {
+    if (!error)
+    {
         soilMoistureData_ListenerThread_data_structure.soilMoisture = doc["soilMoisture"];
 
         // Debug output to Serial
-        Serial.println("Dependum data received:");
-        if (debug) {
-                    Serial.print("soilMoisture: ");
-                    Serial.println(soilMoistureData_ListenerThread_data_structure.soilMoisture);
+        Serial.println("====Dependum data received:");
+        if (debug)
+        {
+            Serial.print("====soilMoisture: ");
+            Serial.println(soilMoistureData_ListenerThread_data_structure.soilMoisture);
         }
-    } else {
-        Serial.println("Error parsing JSON message");
+    }
+    else
+    {
+        Serial.println("====Error parsing JSON message");
     }
     // Your custom code to process the dependum can go here
-
-
-
 }
 
-void receiveDependum_soilMoistureData_ListenerThreadTask(void *pvParameters) {
+void receiveDependum_soilMoistureData_ListenerThreadTask(void *pvParameters)
+{
 
-        //
-        // --- Listener Thread Information ---
-        // Name: Soil Moisture Data - Listener Thread
-        // ID: tc0aXw5la06j1g5yClUv-50-listener_thread
-        // Description: This Listener Thread is responsible for receiving the dependum: soilMoistureData_ListenerThread_data_structure
-        //
-        // Original Element in PIM: Soil Moisture Data - Listener Thread
-        // Transformed To: Function `soilMoistureData_ListenerThread()`
-        //
-        // Note for Developers:
-        // The `dependum` data should be stored on and then retrieved from the function checkSoilMoistureLevels().
-        // Ensure the function completes its operation and receives the required data 
-        // in the appropriate format for reception.
-        // 
-        // Qualification Array:
-        //  * None specified.
-        // 
-        // Contribution Array:
-        //  * None specified.
-        // 
-        //
+    //
+    // --- Listener Thread Information ---
+    // Name: Soil Moisture Data - Listener Thread
+    // ID: tc0aXw5la06j1g5yClUv-50-listener_thread
+    // Description: This Listener Thread is responsible for receiving the dependum: soilMoistureData_ListenerThread_data_structure
+    //
+    // Original Element in PIM: Soil Moisture Data - Listener Thread
+    // Transformed To: Function `soilMoistureData_ListenerThread()`
+    //
+    // Note for Developers:
+    // The `dependum` data should be stored on and then retrieved from the function checkSoilMoistureLevels().
+    // Ensure the function completes its operation and receives the required data
+    // in the appropriate format for reception.
+    //
+    // Qualification Array:
+    //  * None specified.
+    //
+    // Contribution Array:
+    //  * None specified.
+    //
+    //
     // This variable handles the period in milliseconds for thread execution
     const TickType_t xDelay = pdMS_TO_TICKS(10000);
-    
 
+    Serial.println("Running Thread: 'receiveDependum_soilMoistureData_ListenerThreadTask'");
     for (;;)
     {
 
         // Check MQTT connection status
         if (!soilMoistureData_ListenerThreadMqttClient.connected())
         {
-          connectToMQTT(soilMoistureData_ListenerThreadMqttClient, soilMoistureData_ListenerThreadClientId, soilMoistureData_ListenerThread_topic);
+            connectToMQTT(soilMoistureData_ListenerThreadMqttClient, soilMoistureData_ListenerThreadClientId, soilMoistureData_ListenerThread_topic);
         }
 
         // Always poll MQTT for new messages
+        Serial.println("====Polling messages...");
         soilMoistureData_ListenerThreadMqttClient.loop();
 
         // Keep delay to avoid overloading loop but keep polling
@@ -169,38 +177,40 @@ void receiveDependum_soilMoistureData_ListenerThreadTask(void *pvParameters) {
     }
 }
 
-void loop() {
+void loop()
+{
 
     // Let FreeRTOS manage tasks, nothing to do here
     delay(100);
 }
 
-bool changeSoilMoisture(double soilMoistureReferenceValue, int changeSoilMoisture_operation_mode = 0) {
+bool changeSoilMoisture(double soilMoistureReferenceValue, int changeSoilMoisture_operation_mode = 0)
+{
     // Function ID: tc0aXw5la06j1g5yClUv-4
     // Parent ID: tc0aXw5la06j1g5yClUv-4
     // Input Parameters:
-        // Soil Moisture Reference Value(double) - Nivel de humedad al cual se deber�a llegar.
+    // Soil Moisture Reference Value(double) - Nivel de humedad al cual se deber�a llegar.
     // Output Parameters:
     // Qualification Array:
     //  * None specified.
     // Contribution Array:
     //  * - "[{ "softgoal_id": "tc0aXw5la06j1g5yClUv-5", "name": "Resource Efficiency", "contribution": "hurt"}]"
     // Hardware Resource Assigned:
-        // Plant Waterer:
-        //     ID: tc0aXw5la06j1g5yClUv-20
-        //     Parent ID: tc0aXw5la06j1g5yClUv-20
-        //     Description: Este dispositivo corresponde a una v�lvula de agua controlada por un servo  motor e 180 grados, para lo cual se debe incluir la librer�a correspondiente(servo.h).
-        // Plant Configuration Pin:
-        //     ID: U5gbfCX47OS8Pz70eV5W-3
-        //     Parent ID: U5gbfCX47OS8Pz70eV5W-3
-        //     Description: Se utilizar� un pin digital para seleccionar la especie en cultivo. 0 es  para tomate, y 1 para lechuga. Se debe implementar el conexionado  mediante dip switch para la selecci�n.
+    // Plant Waterer:
+    //     ID: tc0aXw5la06j1g5yClUv-20
+    //     Parent ID: tc0aXw5la06j1g5yClUv-20
+    //     Description: Este dispositivo corresponde a una v�lvula de agua controlada por un servo  motor e 180 grados, para lo cual se debe incluir la librer�a correspondiente(servo.h).
+    // Plant Configuration Pin:
+    //     ID: U5gbfCX47OS8Pz70eV5W-3
+    //     Parent ID: U5gbfCX47OS8Pz70eV5W-3
+    //     Description: Se utilizar� un pin digital para seleccionar la especie en cultivo. 0 es  para tomate, y 1 para lechuga. Se debe implementar el conexionado  mediante dip switch para la selecci�n.
     // Set output parameters
- 
+    Serial.println("===>Running Function: 'analyzeBatteryUsage'");
 
     // --- Your code goes here ---
-    Serial.print("====Reference Soil Moisture = ");
+    Serial.print("========Reference Soil Moisture = ");
     Serial.println(soilMoistureReferenceValue);
-    Serial.print("====Current Soil Moisture= ");
+    Serial.print("========Current Soil Moisture= ");
     Serial.println(checkSoilMoistureLevels_soilMoisture);
 
     switch (changeSoilMoisture_operation_mode)
@@ -208,24 +218,24 @@ bool changeSoilMoisture(double soilMoistureReferenceValue, int changeSoilMoistur
     case 0: // Bajo consumo - Dependiendo de la planta configurada, se va accionar el  riego cuando el nivel de humedad se encuentre a un 20% inferior al nivel  promedio establecido para la especie, llegando al nivel promedio de  humedad.
         if (checkSoilMoistureLevels_soilMoisture < (soilMoistureReferenceValue * 0.8))
         {
-            Serial.println("====Activating Watering Valve...");
+            Serial.println("========Activating Watering Valve...");
             valveServo.write(180);
         }
         else
         {
-            Serial.println(" Optimal Soil Moisture, no watering required.");
+            Serial.println("========Optimal Soil Moisture, no watering required.");
             valveServo.write(0);
         }
         break;
     case 1: // Alto Consumo - Dependiendo de la planta configurada, se va accionar el  riego cuando el nivel de humedad se encuentre a un 10% inferior al nivel  promdio establecido para la especie, de manera que se llegue al  promedio del rango �ptimo de humedad.
         if (checkSoilMoistureLevels_soilMoisture < (soilMoistureReferenceValue * 0.9))
         {
-            Serial.println(" Activating Watering Valve...");
+            Serial.println("========Activating Watering Valve...");
             valveServo.write(180);
         }
         else
         {
-            Serial.println(" Optimal Soil Moisture, no watering required.");
+            Serial.println("========Optimal Soil Moisture, no watering required.");
             valveServo.write(0);
         }
         break;
@@ -234,65 +244,66 @@ bool changeSoilMoisture(double soilMoistureReferenceValue, int changeSoilMoistur
         break;
     }
 
-    
     return true;
 
     // --- Your code goes here ---
 }
 
-bool analyzeBatteryUsage() {
+bool analyzeBatteryUsage()
+{
     // Function ID: tc0aXw5la06j1g5yClUv-7
     // Parent ID: tc0aXw5la06j1g5yClUv-7
     // Input Parameters:
     // Output Parameters:
-        // Energy Level(double) - Nivel de energ�a de la bater�a del m�dulo.
+    // Energy Level(double) - Nivel de energ�a de la bater�a del m�dulo.
     // Qualification Array:
     //  * None specified.
     // Contribution Array:
     //  * None specified.
     // Hardware Resource Assigned:
     // Set output parameters
+    Serial.println("===>Running Function: 'analyzeBatteryUsage'");
     analyzeBatteryUsage_energyLevel = getBatteryCharge(); // Nivel de energ�a de la bater�a del m�dulo.
-    Serial.print("====Battery charge: ");
+    Serial.print("========Battery charge: ");
     Serial.println(analyzeBatteryUsage_energyLevel);
 
     // --- Your code goes here ---
-    
-    
-    
+
     return true;
 
     // --- Your code goes here ---
 }
 
-bool checkSoilMoistureLevels() {
+bool checkSoilMoistureLevels()
+{
     // Function ID: tc0aXw5la06j1g5yClUv-9
     // Parent ID: tc0aXw5la06j1g5yClUv-9
     // Input Parameters:
     // Output Parameters:
-        // Soil Moisture(double) - Nivel de humedad de la planta correspondiente.
+    // Soil Moisture(double) - Nivel de humedad de la planta correspondiente.
     // Qualification Array:
     //  * None specified.
     // Contribution Array:
     //  * None specified.
     // Hardware Resource Assigned:
     // Set output parameters
+    Serial.println("===>Running Function: 'checkSoilMoistureLevels'");
     checkSoilMoistureLevels_soilMoisture = soilMoistureData_ListenerThread_data_structure.soilMoisture; // Nivel de humedad de la planta correspondiente.
-
+    Serial.print("========Current Moisture Levels: ");
+    Serial.println(checkSoilMoistureLevels_soilMoisture);
     // --- Your code goes here ---
-    
-    
-    
+
     return true;
 
     // --- Your code goes here ---
 }
 
-bool changeEnergyMode(double energyLevel) {
+bool changeEnergyMode(double energyLevel)
+{
     // Function ID: tc0aXw5la06j1g5yClUv-6
     // Parent ID: tc0aXw5la06j1g5yClUv-6
     // Input Parameters:
-        // Energy Level(double) - Nivel de energ�a de la bater�a del m�dulo.
+    // Energy Level(double) - Nivel de energ�a de la bater�a del m�dulo.
     // Output Parameters:
     // Qualification Array:
     //  * None specified.
@@ -300,7 +311,7 @@ bool changeEnergyMode(double energyLevel) {
     //  * None specified.
     // Hardware Resource Assigned:
     // Set output parameters
- 
+    Serial.println("===>Running Function: 'changeEnergyMode'");
 
     // --- Your code goes here ---
 
@@ -313,32 +324,38 @@ bool changeEnergyMode(double energyLevel) {
         maintainSoilMoistureLevels_operation_mode = 1;
     }
 
+    Serial.print("========Energy Mode: ");
+    Serial.println(maintainSoilMoistureLevels_operation_mode);
     return true;
 
     // --- Your code goes here ---
 }
 
 // Task for maintainSoilMoistureLevels
-void maintainSoilMoistureLevelsTask(void *pvParameters) {
+void maintainSoilMoistureLevelsTask(void *pvParameters)
+{
     // This variable handles the period in milliseconds for thread execution
     const TickType_t xDelay = pdMS_TO_TICKS(10000); // Example interval for maintainSoilMoistureLevels
 
     // --- maintainSoilMoistureLevels Context Information ---
     // ID: tc0aXw5la06j1g5yClUv-3
     // ID CIM Parent: tc0aXw5la06j1g5yClUv-3
-    // qualification_array: 
+    // qualification_array:
     //  * None specified.
-    // contribution_array: 
+    // contribution_array:
     //  * None specified.
     // ----------------------------------------------------------
 
-    for (;;) {
+    for (;;)
+    {
         // --- Your code goes here ---
         // Evaluate the state of maintainSoilMoistureLevels
 
-        Serial.println("Running thread: 'maintainSoilMoistureLevelsTask'");
+        Serial.println("Running Thread: 'maintainSoilMoistureLevelsTask'");
         double soilMoistureReferenceValue = DEFAULT_SOIL_MOISTURE;
         int dipValue = readDipSwitches();
+        Serial.print("====Dip Switch Value: ");
+        Serial.println(dipValue);
         for (int i = 0; i < sizeof(SoilMoistureValidKeys) / sizeof(SoilMoistureValidKeys[0]); i++)
         {
             if (dipValue == SoilMoistureValidKeys[i])
@@ -347,7 +364,7 @@ void maintainSoilMoistureLevelsTask(void *pvParameters) {
                 break;
             }
         }
-
+        Serial.println("====Operation mode: " + maintainSoilMoistureLevels_operation_mode);
         switch (maintainSoilMoistureLevels_operation_mode)
         {
         case 0: // Bajo consumo - Dependiendo de la planta configurada, se va accionar el  riego cuando el nivel de humedad se encuentre a un 20% inferior al nivel  promedio establecido para la especie, llegando al nivel promedio de  humedad.
@@ -368,26 +385,31 @@ void maintainSoilMoistureLevelsTask(void *pvParameters) {
 }
 
 // Task for optimizeResources
-void optimizeResourcesTask(void *pvParameters) {
+void optimizeResourcesTask(void *pvParameters)
+{
     // This variable handles the period in milliseconds for thread execution
     const TickType_t xDelay = pdMS_TO_TICKS(10000); // Example interval for optimizeResources
 
     // --- optimizeResources Context Information ---
     // ID: tc0aXw5la06j1g5yClUv-17
     // ID CIM Parent: tc0aXw5la06j1g5yClUv-17
-    // qualification_array: 
+    // qualification_array:
     //  * None specified.
-    // contribution_array: 
+    // contribution_array:
     //  * - "[{ "softgoal_id": "tc0aXw5la06j1g5yClUv-5", "name": "Resource Efficiency", "contribution": "help"}]"
     // ----------------------------------------------------------
 
-    for (;;) {
+    Serial.println("===>Running Function: 'optimizeResourcesTask'");
+    for (;;)
+    {
         // --- Your code goes here ---
         // Evaluate the state of optimizeResources
 
         double energyLevel = analyzeBatteryUsage_energyLevel;
+        Serial.print("======== Energy Level: ");
+        Serial.println(energyLevel);
         optimizeResources_GoalAchieved = (analyzeBatteryUsage() && changeEnergyMode(energyLevel));
-        
+
         // --- Your code ends here ---
 
         vTaskDelay(xDelay);
@@ -420,4 +442,3 @@ int getBatteryCharge()
 
     return batteryCharge;
 }
-

@@ -13,13 +13,13 @@
 #include <ArduinoJson.h>
 #include <DHT.h>
 
-//Constants
-#define DHTPIN 2     // what pin we're connected to
-#define DHTTYPE DHT22   // DHT 22  (AM2302)
+// Constants
+#define DHTPIN 2          // what pin we're connected to
+#define DHTTYPE DHT22     // DHT 22  (AM2302)
 DHT dht(DHTPIN, DHTTYPE); //// Initialize DHT sensor for normal 16mhz Arduino
 
 // Global variables for WiFi and MQTT connectivity
-const char* temperatureData_CommThreadClientId = "temperatureMonitorComponentClient_cvocu7cyytcjj8tokeac_5";
+const char *temperatureData_CommThreadClientId = "temperatureMonitorComponentClient_cvocu7cyytcjj8tokeac_5";
 WiFiClient temperatureData_CommThreadClient;
 PubSubClient temperatureData_CommThreadMqttClient(temperatureData_CommThreadClient);
 
@@ -29,7 +29,7 @@ int batteryCharge = 100; // Global variable to simulate battery charge (starts a
 // MQTT topics for this CPC ({CPS_id}/{CPC_id}/{comm_thread_id})
 
 // Comm Topics(Sender)
-const char* temperatureData_CommThread_topic = "ehetnx6obnygbtiqlszm_greenhouseMonitoringSystem/cvocu7cyytcjj8tokeac_5/tc0axw5la06j1g5ycluv_51_comm_thread/dependum";
+const char *temperatureData_CommThread_topic = "ehetnx6obnygbtiqlszm_greenhouseMonitoringSystem/cvocu7cyytcjj8tokeac_5/tc0axw5la06j1g5ycluv_51_comm_thread/dependum";
 
 // Thread Status variables
 bool monitorGreenhouseTemperature_GoalAchieved = false; // Global variable for thread monitorGreenhouseTemperature(ID: cVOCU7CYytCJJ8tOkeac-16)
@@ -39,24 +39,27 @@ TaskHandle_t TaskoptimizeResources;
 
 // Function output variables
 double collectTemperatureData_greenhouseTemp = 0.0; // Temperatura ambiental del invernadero.
-double analyzeBatteryUsage_energyLevel = 0.0; // Nivel de energ�a de la bater�a del m�dulo.
+double analyzeBatteryUsage_energyLevel = 0.0;       // Nivel de energ�a de la bater�a del m�dulo.
 
 // Global Operation Mode Variables
 int monitorGreenhouseTemperature_operation_mode = 0; // Initial operation mode: Bajo consumo
 
 // Global Data Structures (software resources and/or any dependum)
-struct temperatureData_CommThread_data_structure {
+struct temperatureData_CommThread_data_structure
+{
     double greenhouseTemp; // Temperatura ambiental del invernadero.
 } temperatureData_CommThread_data_structure;
-
 
 // Comm Thread Handles
 TaskHandle_t TaskpublishDependum_temperatureData_CommThread;
 
-void setup() {
-    if (debug) {
+void setup()
+{
+    if (debug)
+    {
         Serial.begin(9600);
-        while (!Serial);
+        while (!Serial)
+            ;
     }
     connectToWiFi();
     dht.begin();
@@ -64,40 +67,39 @@ void setup() {
     // Connection and subscription to topics(Sender)
     mqttSetup(temperatureData_CommThreadMqttClient);
     connectToMQTT(temperatureData_CommThreadMqttClient, temperatureData_CommThreadClientId, temperatureData_CommThread_topic);
-    
+
     // Create tasks for the operational goals
     xTaskCreate(
-        monitorGreenhouseTemperatureTask,        // Function to implement the task
-        "monitorGreenhouseTemperatureTask",      // Name of the task
-        512,                      // Stack size (in words, not bytes)
-        NULL,                     // Task input parameter
-        1,                        // Priority of the task
-        &TaskmonitorGreenhouseTemperature        // Task handle
+        monitorGreenhouseTemperatureTask,   // Function to implement the task
+        "monitorGreenhouseTemperatureTask", // Name of the task
+        512,                                // Stack size (in words, not bytes)
+        NULL,                               // Task input parameter
+        1,                                  // Priority of the task
+        &TaskmonitorGreenhouseTemperature   // Task handle
     );
     xTaskCreate(
-        optimizeResourcesTask,        // Function to implement the task
-        "optimizeResourcesTask",      // Name of the task
-        512,                      // Stack size (in words, not bytes)
-        NULL,                     // Task input parameter
-        1,                        // Priority of the task
-        &TaskoptimizeResources        // Task handle
+        optimizeResourcesTask,   // Function to implement the task
+        "optimizeResourcesTask", // Name of the task
+        512,                     // Stack size (in words, not bytes)
+        NULL,                    // Task input parameter
+        1,                       // Priority of the task
+        &TaskoptimizeResources   // Task handle
     );
     xTaskCreate(
-        publishDependum_temperatureData_CommThreadTask,        // Function to implement the task
-        "publishDependum_temperatureData_CommThreadTask",      // Name of the task
-        512,                      // Stack size (in words, not bytes)
-        NULL,                     // Task input parameter
-        1,                        // Priority of the task
-        &TaskpublishDependum_temperatureData_CommThread        // Task handle
+        publishDependum_temperatureData_CommThreadTask,   // Function to implement the task
+        "publishDependum_temperatureData_CommThreadTask", // Name of the task
+        512,                                              // Stack size (in words, not bytes)
+        NULL,                                             // Task input parameter
+        1,                                                // Priority of the task
+        &TaskpublishDependum_temperatureData_CommThread   // Task handle
     );
 
     // Start the threads
     vTaskStartScheduler();
 }
 
-
-
-void publishDependum_temperatureData_CommThreadTask(void *pvParameters) {
+void publishDependum_temperatureData_CommThreadTask(void *pvParameters)
+{
 
     //
     // --- Comm Thread Information ---
@@ -110,19 +112,20 @@ void publishDependum_temperatureData_CommThreadTask(void *pvParameters) {
     //
     // Note for Developers:
     // The `dependum` data should be generated by the function publishTemperatureData().
-    // Ensure the function completes its operation and provides the required data 
+    // Ensure the function completes its operation and provides the required data
     // in the appropriate format for transmission.
-    // 
+    //
     // Qualification Array:
     //  * None specified.
-    // 
+    //
     // Contribution Array:
     //  * None specified.
-    // 
+    //
     //
     // This variable handles the period in milliseconds for thread execution
     const TickType_t xDelay = pdMS_TO_TICKS(10000);
-    for (;;) {
+    for (;;)
+    {
         // Create a JSON object for the dependum
         Serial.println("Running Thread 'publishDependum_temperatureData_CommThreadTask'");
         JSONVar dependumJson;
@@ -131,85 +134,87 @@ void publishDependum_temperatureData_CommThreadTask(void *pvParameters) {
         // Convert the JSON object to a string
         String dependumMessage = JSON.stringify(dependumJson);
 
-        temperatureData_CommThreadMqttClient.publish(temperatureData_CommThread_topic, dependumMessage.c_str());  // Publish message
-        if (debug) {
+        temperatureData_CommThreadMqttClient.publish(temperatureData_CommThread_topic, dependumMessage.c_str()); // Publish message
+        if (debug)
+        {
             Serial.println("====Dependum published successfully for Temperature Data - Comm Thread!");
             Serial.print("====Topic: ");
             Serial.println(temperatureData_CommThread_topic);
             Serial.print("====Message: ");
             Serial.println(dependumMessage);
-        } else {
-            if (debug) {
+        }
+        else
+        {
+            if (debug)
+            {
                 Serial.println("Failed to publish dependum for Temperature Data - Comm Thread.");
             }
-            
         }
         vTaskDelay(xDelay);
     }
 }
 
-
-
-
-void loop() {
+void loop()
+{
 
     // Let FreeRTOS manage tasks, nothing to do here
     delay(100);
 }
 
-bool collectTemperatureData(int collectTemperatureData_operation_mode = 0) {
+bool collectTemperatureData(int collectTemperatureData_operation_mode = 0)
+{
     // Function ID: cVOCU7CYytCJJ8tOkeac-17
     // Parent ID: cVOCU7CYytCJJ8tOkeac-17
     // Input Parameters:
     // Output Parameters:
-        // Greenhouse Temp(double) - Temperatura ambiental del invernadero.
+    // Greenhouse Temp(double) - Temperatura ambiental del invernadero.
     // Qualification Array:
     //  * None specified.
     // Contribution Array:
     //  * - "[{ "softgoal_id": "cVOCU7CYytCJJ8tOkeac-19", "name": "Resource Efficiency", "contribution": "hurt"}]"
     // Hardware Resource Assigned:
-        // Temperature Sensor:
-        //     ID: cVOCU7CYytCJJ8tOkeac-18
-        //     Parent ID: cVOCU7CYytCJJ8tOkeac-18
-        //     Description: Se debe utilizar un sensor de temperatura DHT-11, para lo cual se debe incluir la librer�a correspondiente.
+    // Temperature Sensor:
+    //     ID: cVOCU7CYytCJJ8tOkeac-18
+    //     Parent ID: cVOCU7CYytCJJ8tOkeac-18
+    //     Description: Se debe utilizar un sensor de temperatura DHT-11, para lo cual se debe incluir la librer�a correspondiente.
     // Set output parameters
-    
-
 
     // --- Your code goes here ---
     Serial.println("===>Running Function 'collectTemperatureData'");
-    
-    switch (collectTemperatureData_operation_mode) {
-        case 0: // Bajo consumo - Depende de que la bater�a posea un nivel de energ�a  bajo, lo cual implica la obtenci�n de una sola muestra de temperatura  por ciclo, con una fiabilidad de muestra baja, pero con un consumo  m�nimo de energ�a.
-            collectTemperatureData_greenhouseTemp = dht.readTemperature();
-            Serial.print("========Instant temperature obtained: ");
-            Serial.println(collectTemperatureData_greenhouseTemp);
-            break;
-        case 1: // Alto Consumo - Depende de que la bater�a posea un nivel de energ�a  alto, lo cual implica un uso menos conservador de energ�a, y por lo  tanto una muestra m�s precisa promediando 10 mediciones consecutivas,  con una fiabilidad de muestra alta.
-            double aux;
-            for(int i=0; i<10; i++){
-              aux += dht.readTemperature();
-            }
-            collectTemperatureData_greenhouseTemp =aux/10;
-            Serial.print("========Average temperature obtained: ");
-            Serial.println(collectTemperatureData_greenhouseTemp);
-            break;
-        default:
-            // Handle undefined operation modes
-            break;
+
+    switch (collectTemperatureData_operation_mode)
+    {
+    case 0: // Bajo consumo - Depende de que la bater�a posea un nivel de energ�a  bajo, lo cual implica la obtenci�n de una sola muestra de temperatura  por ciclo, con una fiabilidad de muestra baja, pero con un consumo  m�nimo de energ�a.
+        collectTemperatureData_greenhouseTemp = dht.readTemperature();
+        Serial.print("========Instant temperature obtained: ");
+        Serial.println(collectTemperatureData_greenhouseTemp);
+        break;
+    case 1: // Alto Consumo - Depende de que la bater�a posea un nivel de energ�a  alto, lo cual implica un uso menos conservador de energ�a, y por lo  tanto una muestra m�s precisa promediando 10 mediciones consecutivas,  con una fiabilidad de muestra alta.
+        double aux;
+        for (int i = 0; i < 10; i++)
+        {
+            aux += dht.readTemperature();
+        }
+        collectTemperatureData_greenhouseTemp = aux / 10;
+        Serial.print("========Average temperature obtained: ");
+        Serial.println(collectTemperatureData_greenhouseTemp);
+        break;
+    default:
+        // Handle undefined operation modes
+        break;
     }
 
-    
     return true;
 
     // --- Your code goes here ---
 }
 
-bool publishTemperatureData(double greenhouseTemp) {
+bool publishTemperatureData(double greenhouseTemp)
+{
     // Function ID: cVOCU7CYytCJJ8tOkeac-26
     // Parent ID: cVOCU7CYytCJJ8tOkeac-26
     // Input Parameters:
-        // Greenhouse Temp(double) - Temperatura ambiental del invernadero.
+    // Greenhouse Temp(double) - Temperatura ambiental del invernadero.
     // Output Parameters:
     // Qualification Array:
     //  * None specified.
@@ -217,24 +222,25 @@ bool publishTemperatureData(double greenhouseTemp) {
     //  * None specified.
     // Hardware Resource Assigned:
     // Set output parameters
- 
+
     Serial.println("===>Running Function 'publishTemperatureData'");
     // --- Your code goes here ---
     Serial.print("========Publishing this temp: ");
     Serial.println(greenhouseTemp);
     temperatureData_CommThread_data_structure.greenhouseTemp = greenhouseTemp;
-    
+
     return true;
 
     // --- Your code goes here ---
 }
 
-bool analyzeBatteryUsage() {
+bool analyzeBatteryUsage()
+{
     // Function ID: cVOCU7CYytCJJ8tOkeac-22
     // Parent ID: cVOCU7CYytCJJ8tOkeac-22
     // Input Parameters:
     // Output Parameters:
-        // Energy Level(double) - Nivel de energ�a de la bater�a del m�dulo.
+    // Energy Level(double) - Nivel de energ�a de la bater�a del m�dulo.
     // Qualification Array:
     //  * None specified.
     // Contribution Array:
@@ -243,21 +249,22 @@ bool analyzeBatteryUsage() {
     // Set output parameters
     Serial.println("===>Running Function 'analyzeBatteryUsage'");
     // --- Your code goes here ---
-    
+
     analyzeBatteryUsage_energyLevel = getBatteryCharge(); // Nivel de energ�a de la bater�a del m�dulo.
     Serial.print("========Battery charge: ");
     Serial.println(analyzeBatteryUsage_energyLevel);
-    
+
     return true;
 
     // --- Your code goes here ---
 }
 
-bool changeEnergyMode(double energyLevel) {
+bool changeEnergyMode(double energyLevel)
+{
     // Function ID: cVOCU7CYytCJJ8tOkeac-21
     // Parent ID: cVOCU7CYytCJJ8tOkeac-21
     // Input Parameters:
-        // Energy Level(double) - Nivel de energ�a de la bater�a del m�dulo.
+    // Energy Level(double) - Nivel de energ�a de la bater�a del m�dulo.
     // Output Parameters:
     // Qualification Array:
     //  * None specified.
@@ -265,14 +272,17 @@ bool changeEnergyMode(double energyLevel) {
     //  * None specified.
     // Hardware Resource Assigned:
     // Set output parameters
- 
+
     Serial.println("===>Running Function 'changeEnergyMode'");
     // --- Your code goes here ---
-    
-    if(energyLevel < 50){
-      monitorGreenhouseTemperature_operation_mode = 0;
-    } else{
-      monitorGreenhouseTemperature_operation_mode = 1;
+
+    if (energyLevel < 50)
+    {
+        monitorGreenhouseTemperature_operation_mode = 0;
+    }
+    else
+    {
+        monitorGreenhouseTemperature_operation_mode = 1;
     }
     Serial.print("========monitorGreenhouseTemperature_operation_mode = ");
     Serial.println(monitorGreenhouseTemperature_operation_mode);
@@ -283,36 +293,39 @@ bool changeEnergyMode(double energyLevel) {
 }
 
 // Task for monitorGreenhouseTemperature
-void monitorGreenhouseTemperatureTask(void *pvParameters) {
+void monitorGreenhouseTemperatureTask(void *pvParameters)
+{
     // This variable handles the period in milliseconds for thread execution
     const TickType_t xDelay = pdMS_TO_TICKS(10000); // Example interval for monitorGreenhouseTemperature
 
     // --- monitorGreenhouseTemperature Context Information ---
     // ID: cVOCU7CYytCJJ8tOkeac-16
     // ID CIM Parent: cVOCU7CYytCJJ8tOkeac-16
-    // qualification_array: 
+    // qualification_array:
     //  * None specified.
-    // contribution_array: 
+    // contribution_array:
     //  * None specified.
     // ----------------------------------------------------------
 
-    for (;;) {
+    for (;;)
+    {
         Serial.println("Running Thread 'monitorGreenhouseTemperatureTask'");
         // --- Your code goes here ---
         // Evaluate the state of monitorGreenhouseTemperature
 
         double greenhouseTemp = collectTemperatureData_greenhouseTemp;
-        
-        switch (monitorGreenhouseTemperature_operation_mode) {
-            case 0: // Bajo consumo - Depende de que la bater�a posea un nivel de energ�a  bajo, lo cual implica la obtenci�n de una sola muestra de temperatura  por ciclo, con una fiabilidad de muestra baja, pero con un consumo  m�nimo de energ�a.
-                monitorGreenhouseTemperature_GoalAchieved = (publishTemperatureData(greenhouseTemp) && collectTemperatureData());
-                break;
-            case 1: // Alto Consumo - Depende de que la bater�a posea un nivel de energ�a  alto, lo cual implica un uso menos conservador de energ�a, y por lo  tanto una muestra m�s precisa promediando 10 mediciones consecutivas,  con una fiabilidad de muestra alta.
-                monitorGreenhouseTemperature_GoalAchieved = (publishTemperatureData(greenhouseTemp) && collectTemperatureData(1));
-                break;
-            default:
-                // Handle undefined operation modes
-                break;
+
+        switch (monitorGreenhouseTemperature_operation_mode)
+        {
+        case 0: // Bajo consumo - Depende de que la bater�a posea un nivel de energ�a  bajo, lo cual implica la obtenci�n de una sola muestra de temperatura  por ciclo, con una fiabilidad de muestra baja, pero con un consumo  m�nimo de energ�a.
+            monitorGreenhouseTemperature_GoalAchieved = (publishTemperatureData(greenhouseTemp) && collectTemperatureData());
+            break;
+        case 1: // Alto Consumo - Depende de que la bater�a posea un nivel de energ�a  alto, lo cual implica un uso menos conservador de energ�a, y por lo  tanto una muestra m�s precisa promediando 10 mediciones consecutivas,  con una fiabilidad de muestra alta.
+            monitorGreenhouseTemperature_GoalAchieved = (publishTemperatureData(greenhouseTemp) && collectTemperatureData(1));
+            break;
+        default:
+            // Handle undefined operation modes
+            break;
         }
 
         // --- Your code ends here ---
@@ -322,20 +335,22 @@ void monitorGreenhouseTemperatureTask(void *pvParameters) {
 }
 
 // Task for optimizeResources
-void optimizeResourcesTask(void *pvParameters) {
+void optimizeResourcesTask(void *pvParameters)
+{
     // This variable handles the period in milliseconds for thread execution
     const TickType_t xDelay = pdMS_TO_TICKS(10000); // Example interval for optimizeResources
 
     // --- optimizeResources Context Information ---
     // ID: cVOCU7CYytCJJ8tOkeac-20
     // ID CIM Parent: cVOCU7CYytCJJ8tOkeac-20
-    // qualification_array: 
+    // qualification_array:
     //  * None specified.
-    // contribution_array: 
+    // contribution_array:
     //  * - "[{ "softgoal_id": "cVOCU7CYytCJJ8tOkeac-19", "name": "Resource Efficiency", "contribution": "help"}]"
     // ----------------------------------------------------------
 
-    for (;;) {
+    for (;;)
+    {
         Serial.println("Running Thread 'optimizeResourcesTask'");
         // --- Your code goes here ---
         // Evaluate the state of optimizeResources
@@ -344,21 +359,23 @@ void optimizeResourcesTask(void *pvParameters) {
         Serial.print("====Energy Level: ");
         Serial.println(energyLevel);
         optimizeResources_GoalAchieved = (analyzeBatteryUsage() && changeEnergyMode(energyLevel));
-        
+
         // --- Your code ends here ---
 
         vTaskDelay(xDelay);
     }
 }
 
-int getBatteryCharge() {
-  // Decrease charge by 1%
-  batteryCharge = batteryCharge - 10;
+int getBatteryCharge()
+{
+    // Decrease charge by 1%
+    batteryCharge = batteryCharge - 10;
 
-  // Reset to 100% if charge reaches 0%
-  if (batteryCharge < 0) {
-    batteryCharge = 100;
-  }
+    // Reset to 100% if charge reaches 0%
+    if (batteryCharge < 0)
+    {
+        batteryCharge = 100;
+    }
 
-  return batteryCharge;
+    return batteryCharge;
 }

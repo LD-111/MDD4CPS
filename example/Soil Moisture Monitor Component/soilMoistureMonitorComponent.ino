@@ -13,12 +13,12 @@
 #include <ArduinoJson.h>
 #include <DHT.h>
 
-#define DHTPIN 2     // what pin we're connected to
-#define DHTTYPE DHT22   // DHT 22  (AM2302)
+#define DHTPIN 2          // what pin we're connected to
+#define DHTTYPE DHT22     // DHT 22  (AM2302)
 DHT dht(DHTPIN, DHTTYPE); //// Initialize DHT sensor for normal 16mhz Arduino
 
 // Global variables for WiFi and MQTT connectivity
-const char* soilMoistureData_CommThreadClientId = "soilMoistureMonitorComponentClient_cvocu7cyytcjj8tokeac_32";
+const char *soilMoistureData_CommThreadClientId = "soilMoistureMonitorComponentClient_cvocu7cyytcjj8tokeac_32";
 WiFiClient soilMoistureData_CommThreadClient;
 PubSubClient soilMoistureData_CommThreadMqttClient(soilMoistureData_CommThreadClient);
 
@@ -28,7 +28,7 @@ int batteryCharge = 100; // Global variable to simulate battery charge (starts a
 // MQTT topics for this CPC ({CPS_id}/{CPC_id}/{comm_thread_id})
 
 // Comm Topics(Sender)
-const char* soilMoistureData_CommThread_topic = "ehetnx6obnygbtiqlszm_greenhouseMonitoringSystem/cvocu7cyytcjj8tokeac_32/tc0axw5la06j1g5ycluv_50_comm_thread/dependum";
+const char *soilMoistureData_CommThread_topic = "ehetnx6obnygbtiqlszm_greenhouseMonitoringSystem/cvocu7cyytcjj8tokeac_32/tc0axw5la06j1g5ycluv_50_comm_thread/dependum";
 
 // Thread Status variables
 bool monitorSoilMoisture_GoalAchieved = false; // Global variable for thread monitorSoilMoisture(ID: cVOCU7CYytCJJ8tOkeac-33)
@@ -37,65 +37,67 @@ bool optimizeResources_GoalAchieved = false; // Global variable for thread optim
 TaskHandle_t TaskoptimizeResources;
 
 // Function output variables
-double analyzeBatteryUsage_energyLevel = 0.0; // Nivel de energ�a de la bater�a del m�dulo.
+double analyzeBatteryUsage_energyLevel = 0.0;      // Nivel de energ�a de la bater�a del m�dulo.
 double collectSoilMoistureData_soilMoisture = 0.0; // Nivel de humedad de la planta correspondiente.
 
 // Global Operation Mode Variables
 int monitorSoilMoisture_operation_mode = 0; // Initial operation mode: Bajo consumo
 
 // Global Data Structures (software resources and/or any dependum)
-struct soilMoistureData_CommThread_data_structure {
+struct soilMoistureData_CommThread_data_structure
+{
     double soilMoisture; // Nivel de humedad de la planta correspondiente.
 } soilMoistureData_CommThread_data_structure;
-
 
 // Comm Thread Handles
 TaskHandle_t TaskpublishDependum_soilMoistureData_CommThread;
 
-void setup() {
-    if (debug) {
+void setup()
+{
+    if (debug)
+    {
         Serial.begin(9600);
-        while (!Serial);
+        while (!Serial)
+            ;
     }
-    dht.begin(); 
+    dht.begin();
     connectToWiFi();
 
     // Connection and subscription to topics(Sender)
     connectToMQTT(soilMoistureData_CommThreadMqttClient, soilMoistureData_CommThreadClientId, soilMoistureData_CommThread_topic);
-    
+
     // Create tasks for the operational goals
     xTaskCreate(
-        monitorSoilMoistureTask,        // Function to implement the task
-        "monitorSoilMoistureTask",      // Name of the task
-        512,                      // Stack size (in words, not bytes)
-        NULL,                     // Task input parameter
-        1,                        // Priority of the task
-        &TaskmonitorSoilMoisture        // Task handle
+        monitorSoilMoistureTask,   // Function to implement the task
+        "monitorSoilMoistureTask", // Name of the task
+        512,                       // Stack size (in words, not bytes)
+        NULL,                      // Task input parameter
+        1,                         // Priority of the task
+        &TaskmonitorSoilMoisture   // Task handle
     );
     xTaskCreate(
-        optimizeResourcesTask,        // Function to implement the task
-        "optimizeResourcesTask",      // Name of the task
-        512,                      // Stack size (in words, not bytes)
-        NULL,                     // Task input parameter
-        1,                        // Priority of the task
-        &TaskoptimizeResources        // Task handle
+        optimizeResourcesTask,   // Function to implement the task
+        "optimizeResourcesTask", // Name of the task
+        512,                     // Stack size (in words, not bytes)
+        NULL,                    // Task input parameter
+        1,                       // Priority of the task
+        &TaskoptimizeResources   // Task handle
     );
     xTaskCreate(
-        publishDependum_soilMoistureData_CommThreadTask,        // Function to implement the task
-        "publishDependum_soilMoistureData_CommThreadTask",      // Name of the task
-        512,                      // Stack size (in words, not bytes)
-        NULL,                     // Task input parameter
-        1,                        // Priority of the task
-        &TaskpublishDependum_soilMoistureData_CommThread        // Task handle
+        publishDependum_soilMoistureData_CommThreadTask,   // Function to implement the task
+        "publishDependum_soilMoistureData_CommThreadTask", // Name of the task
+        512,                                               // Stack size (in words, not bytes)
+        NULL,                                              // Task input parameter
+        1,                                                 // Priority of the task
+        &TaskpublishDependum_soilMoistureData_CommThread   // Task handle
     );
 
     // Start the threads
     vTaskStartScheduler();
 }
 
-
-
-void publishDependum_soilMoistureData_CommThreadTask(void *pvParameters) {
+void publishDependum_soilMoistureData_CommThreadTask(void *pvParameters)
+{
 
     //
     // --- Comm Thread Information ---
@@ -108,19 +110,20 @@ void publishDependum_soilMoistureData_CommThreadTask(void *pvParameters) {
     //
     // Note for Developers:
     // The `dependum` data should be generated by the function publishMoistureData().
-    // Ensure the function completes its operation and provides the required data 
+    // Ensure the function completes its operation and provides the required data
     // in the appropriate format for transmission.
-    // 
+    //
     // Qualification Array:
     //  * None specified.
-    // 
+    //
     // Contribution Array:
     //  * None specified.
-    // 
+    //
     //
     // This variable handles the period in milliseconds for thread execution
     const TickType_t xDelay = pdMS_TO_TICKS(10000);
-    for (;;) {
+    for (;;)
+    {
         // Create a JSON object for the dependum
         JSONVar dependumJson;
         dependumJson["soilMoisture"] = soilMoistureData_CommThread_data_structure.soilMoisture;
@@ -128,17 +131,19 @@ void publishDependum_soilMoistureData_CommThreadTask(void *pvParameters) {
         // Convert the JSON object to a string
         String dependumMessage = JSON.stringify(dependumJson);
 
-
-
-        soilMoistureData_CommThreadMqttClient.publish(soilMoistureData_CommThread_topic, dependumMessage.c_str());  // Publish message
-        if (debug) {
+        soilMoistureData_CommThreadMqttClient.publish(soilMoistureData_CommThread_topic, dependumMessage.c_str()); // Publish message
+        if (debug)
+        {
             Serial.println("Dependum published successfully for Soil Moisture Data - Comm Thread!");
             Serial.print("Topic: ");
             Serial.println(soilMoistureData_CommThread_topic);
             Serial.print("Message: ");
             Serial.println(dependumMessage);
-        } else {
-            if (debug) {
+        }
+        else
+        {
+            if (debug)
+            {
                 Serial.println("Failed to publish dependum for Soil Moisture Data - Comm Thread.");
             }
             vTaskDelay(xDelay);
@@ -146,21 +151,20 @@ void publishDependum_soilMoistureData_CommThreadTask(void *pvParameters) {
     }
 }
 
-
-
-
-void loop() {
+void loop()
+{
 
     // Let FreeRTOS manage tasks, nothing to do here
     delay(100);
 }
 
-bool analyzeBatteryUsage() {
+bool analyzeBatteryUsage()
+{
     // Function ID: cVOCU7CYytCJJ8tOkeac-37
     // Parent ID: cVOCU7CYytCJJ8tOkeac-37
     // Input Parameters:
     // Output Parameters:
-        // Energy Level(double) - Nivel de energ�a de la bater�a del m�dulo.
+    // Energy Level(double) - Nivel de energ�a de la bater�a del m�dulo.
     // Qualification Array:
     //  * None specified.
     // Contribution Array:
@@ -172,19 +176,18 @@ bool analyzeBatteryUsage() {
     Serial.println(analyzeBatteryUsage_energyLevel);
 
     // --- Your code goes here ---
-    
-    
-    
+
     return true;
 
     // --- Your code goes here ---
 }
 
-bool publishMoistureData(double soilMoisture) {
+bool publishMoistureData(double soilMoisture)
+{
     // Function ID: cVOCU7CYytCJJ8tOkeac-39
     // Parent ID: cVOCU7CYytCJJ8tOkeac-39
     // Input Parameters:
-        // Soil Moisture(double) - Nivel de humedad de la planta correspondiente.
+    // Soil Moisture(double) - Nivel de humedad de la planta correspondiente.
     // Output Parameters:
     // Qualification Array:
     //  * None specified.
@@ -192,70 +195,70 @@ bool publishMoistureData(double soilMoisture) {
     //  * None specified.
     // Hardware Resource Assigned:
     // Set output parameters
- 
 
     // --- Your code goes here ---
-    
+
     soilMoistureData_CommThread_data_structure.soilMoisture = soilMoisture;
-    
+
     return true;
 
     // --- Your code goes here ---
 }
 
-bool collectSoilMoistureData(int collectSoilMoistureData_operation_mode = 0) {
+bool collectSoilMoistureData(int collectSoilMoistureData_operation_mode = 0)
+{
     // Function ID: cVOCU7CYytCJJ8tOkeac-34
     // Parent ID: cVOCU7CYytCJJ8tOkeac-34
     // Input Parameters:
     // Output Parameters:
-        // Soil Moisture(double) - Nivel de humedad de la planta correspondiente.
+    // Soil Moisture(double) - Nivel de humedad de la planta correspondiente.
     // Qualification Array:
     //  * None specified.
     // Contribution Array:
     //  * - "[{ "softgoal_id": "cVOCU7CYytCJJ8tOkeac-35", "name": "Resource Efficiency", "contribution": "hurt"}]"
     // Hardware Resource Assigned:
-        // Soil Moisture Sensor:
-        //     ID: cVOCU7CYytCJJ8tOkeac-50
-        //     Parent ID: cVOCU7CYytCJJ8tOkeac-50
-        //     Description: Se debe utilizar un sensor de temperatura DHT-11, para lo cual se debe incluir la librer�a correspondiente(dht.h).
+    // Soil Moisture Sensor:
+    //     ID: cVOCU7CYytCJJ8tOkeac-50
+    //     Parent ID: cVOCU7CYytCJJ8tOkeac-50
+    //     Description: Se debe utilizar un sensor de temperatura DHT-11, para lo cual se debe incluir la librer�a correspondiente(dht.h).
     // Set output parameters
 
-
     // --- Your code goes here ---
-    
-    
-    switch (collectSoilMoistureData_operation_mode) {
-        case 0: // Bajo consumo - Depende de que la bater�a posea un nivel de energ�a  bajo, lo cual implica la obtenci�n de una sola muestra de temperatura  por ciclo, con una fiabilidad de muestra baja, pero con un consumo  m�nimo de energ�a.
-            // Your logic for Bajo consumo goes here
-            collectSoilMoistureData_soilMoisture = dht.readHumidity();
-            Serial.print("Instant Soil Moisture obtained: ");
-            Serial.println(collectSoilMoistureData_soilMoisture);
-            break;
-        case 1: // Alto Consumo - Depende de que la bater�a posea un nivel de energ�a  alto, lo cual implica un uso menos conservador de energ�a, y por lo  tanto una muestra m�s precisa promediando 10 mediciones consecutivas,  con una fiabilidad de muestra alta.
-            double aux;
-            for(int i=0; i<10; i++){
-              aux += dht.readHumidity();
-            }
-            collectSoilMoistureData_soilMoisture =aux/10;
-            Serial.print("Average Soil Moisture obtained: ");
-            Serial.println(collectSoilMoistureData_soilMoisture);
-            break;
-        default:
-            // Handle undefined operation modes
-            break;
+
+    switch (collectSoilMoistureData_operation_mode)
+    {
+    case 0: // Bajo consumo - Depende de que la bater�a posea un nivel de energ�a  bajo, lo cual implica la obtenci�n de una sola muestra de temperatura  por ciclo, con una fiabilidad de muestra baja, pero con un consumo  m�nimo de energ�a.
+        // Your logic for Bajo consumo goes here
+        collectSoilMoistureData_soilMoisture = dht.readHumidity();
+        Serial.print("Instant Soil Moisture obtained: ");
+        Serial.println(collectSoilMoistureData_soilMoisture);
+        break;
+    case 1: // Alto Consumo - Depende de que la bater�a posea un nivel de energ�a  alto, lo cual implica un uso menos conservador de energ�a, y por lo  tanto una muestra m�s precisa promediando 10 mediciones consecutivas,  con una fiabilidad de muestra alta.
+        double aux;
+        for (int i = 0; i < 10; i++)
+        {
+            aux += dht.readHumidity();
+        }
+        collectSoilMoistureData_soilMoisture = aux / 10;
+        Serial.print("Average Soil Moisture obtained: ");
+        Serial.println(collectSoilMoistureData_soilMoisture);
+        break;
+    default:
+        // Handle undefined operation modes
+        break;
     }
 
-    
     return true;
 
     // --- Your code goes here ---
 }
 
-bool changeEnergyMode(double energyLevel) {
+bool changeEnergyMode(double energyLevel)
+{
     // Function ID: cVOCU7CYytCJJ8tOkeac-36
     // Parent ID: cVOCU7CYytCJJ8tOkeac-36
     // Input Parameters:
-        // Energy Level(double) - Nivel de energ�a de la bater�a del m�dulo.
+    // Energy Level(double) - Nivel de energ�a de la bater�a del m�dulo.
     // Output Parameters:
     // Qualification Array:
     //  * None specified.
@@ -263,54 +266,59 @@ bool changeEnergyMode(double energyLevel) {
     //  * None specified.
     // Hardware Resource Assigned:
     // Set output parameters
- 
 
     // --- Your code goes here ---
-    
-    if(energyLevel < 50) {
-      monitorSoilMoisture_operation_mode = 0;
-    } else {
-      monitorSoilMoisture_operation_mode = 1;
+
+    if (energyLevel < 50)
+    {
+        monitorSoilMoisture_operation_mode = 0;
     }
-    
+    else
+    {
+        monitorSoilMoisture_operation_mode = 1;
+    }
+
     return true;
 
     // --- Your code goes here ---
 }
 
 // Task for monitorSoilMoisture
-void monitorSoilMoistureTask(void *pvParameters) {
+void monitorSoilMoistureTask(void *pvParameters)
+{
     // This variable handles the period in milliseconds for thread execution
     const TickType_t xDelay = pdMS_TO_TICKS(10000); // Example interval for monitorSoilMoisture
 
     // --- monitorSoilMoisture Context Information ---
     // ID: cVOCU7CYytCJJ8tOkeac-33
     // ID CIM Parent: cVOCU7CYytCJJ8tOkeac-33
-    // qualification_array: 
+    // qualification_array:
     //  * None specified.
-    // contribution_array: 
+    // contribution_array:
     //  * None specified.
     // ----------------------------------------------------------
 
-    for (;;) {
+    for (;;)
+    {
         // --- Your code goes here ---
         // Evaluate the state of monitorSoilMoisture
 
         double soilMoisture = 0.0;
         monitorSoilMoisture_GoalAchieved = (publishMoistureData(soilMoisture) && collectSoilMoistureData());
-        
-        switch (monitorSoilMoisture_operation_mode) {
-            case 0: // Bajo consumo - Depende de que la bater�a posea un nivel de energ�a  bajo, lo cual implica la obtenci�n de una sola muestra de temperatura  por ciclo, con una fiabilidad de muestra baja, pero con un consumo  m�nimo de energ�a.
-                // Your logic for Bajo consumo goes here
-                monitorSoilMoisture_GoalAchieved = (publishMoistureData(collectSoilMoistureData_soilMoisture) && collectSoilMoistureData(0));
-                break;
-            case 1: // Alto Consumo - Depende de que la bater�a posea un nivel de energ�a  alto, lo cual implica un uso menos conservador de energ�a, y por lo  tanto una muestra m�s precisa promediando 10 mediciones consecutivas,  con una fiabilidad de muestra alta.
-                // Your logic for Alto Consumo goes here
-                monitorSoilMoisture_GoalAchieved = (publishMoistureData(collectSoilMoistureData_soilMoisture) && collectSoilMoistureData(1));
-                break;
-            default:
-                // Handle undefined operation modes
-                break;
+
+        switch (monitorSoilMoisture_operation_mode)
+        {
+        case 0: // Bajo consumo - Depende de que la bater�a posea un nivel de energ�a  bajo, lo cual implica la obtenci�n de una sola muestra de temperatura  por ciclo, con una fiabilidad de muestra baja, pero con un consumo  m�nimo de energ�a.
+            // Your logic for Bajo consumo goes here
+            monitorSoilMoisture_GoalAchieved = (publishMoistureData(collectSoilMoistureData_soilMoisture) && collectSoilMoistureData(0));
+            break;
+        case 1: // Alto Consumo - Depende de que la bater�a posea un nivel de energ�a  alto, lo cual implica un uso menos conservador de energ�a, y por lo  tanto una muestra m�s precisa promediando 10 mediciones consecutivas,  con una fiabilidad de muestra alta.
+            // Your logic for Alto Consumo goes here
+            monitorSoilMoisture_GoalAchieved = (publishMoistureData(collectSoilMoistureData_soilMoisture) && collectSoilMoistureData(1));
+            break;
+        default:
+            // Handle undefined operation modes
+            break;
         }
 
         // --- Your code ends here ---
@@ -320,40 +328,44 @@ void monitorSoilMoistureTask(void *pvParameters) {
 }
 
 // Task for optimizeResources
-void optimizeResourcesTask(void *pvParameters) {
+void optimizeResourcesTask(void *pvParameters)
+{
     // This variable handles the period in milliseconds for thread execution
     const TickType_t xDelay = pdMS_TO_TICKS(10000); // Example interval for optimizeResources
 
     // --- optimizeResources Context Information ---
     // ID: cVOCU7CYytCJJ8tOkeac-47
     // ID CIM Parent: cVOCU7CYytCJJ8tOkeac-47
-    // qualification_array: 
+    // qualification_array:
     //  * None specified.
-    // contribution_array: 
+    // contribution_array:
     //  * - "[{ "softgoal_id": "cVOCU7CYytCJJ8tOkeac-35", "name": "Resource Efficiency", "contribution": "help"}]"
     // ----------------------------------------------------------
 
-    for (;;) {
+    for (;;)
+    {
         // --- Your code goes here ---
         // Evaluate the state of optimizeResources
 
         double energyLevel = analyzeBatteryUsage_energyLevel;
         optimizeResources_GoalAchieved = (analyzeBatteryUsage() && changeEnergyMode(energyLevel));
-        
+
         // --- Your code ends here ---
 
         vTaskDelay(xDelay);
     }
 }
 
-int getBatteryCharge() {
-  // Decrease charge by 1%
-  batteryCharge = batteryCharge - 10;
+int getBatteryCharge()
+{
+    // Decrease charge by 1%
+    batteryCharge = batteryCharge - 10;
 
-  // Reset to 100% if charge reaches 0%
-  if (batteryCharge < 0) {
-    batteryCharge = 100;
-  }
+    // Reset to 100% if charge reaches 0%
+    if (batteryCharge < 0)
+    {
+        batteryCharge = 100;
+    }
 
-  return batteryCharge;
+    return batteryCharge;
 }
