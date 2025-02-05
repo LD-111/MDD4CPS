@@ -20,7 +20,7 @@ You can access the tool at [localhost:5000](http://localhost:5000) after running
 
 ### CIM to PIM Transformation (Default Mode)
 <center>
-  <img src="./images/01_CIM_PIM.png" alt="My Screenshot" width="700">
+  <img src="./images/01_CIM_PIM.png" alt="My Screenshot" style="width: 100%">
 </center>
 
 1. **Create Your iStar Model**:
@@ -29,42 +29,42 @@ You can access the tool at [localhost:5000](http://localhost:5000) after running
 2. **Load your iStar model**:
    - Once the iStar model is ready, click the **"Load Input XML"** button to upload your model (in XML format) into the tool.
 <center>
-  <img src="./images/02_CIM_PIM.png" alt="App UI" width="700">
+  <img src="./images/02_CIM_PIM.png" alt="App UI" style="width: 100%">
 </center>
 
 3. **Apply Rules**:
    - After loading the model, click the **"Apply Rules"** button. This will trigger a form asking for user parameters relevant to the transformation, such as task input parameters, timing for Goals, etc.
 <center>
-  <img src="./images/03_CIM_PIM.png" alt="Loading Image" width="700">
+  <img src="./images/03_CIM_PIM.png" alt="Loading Image" style="width: 100%">
 </center>
 
 4. **Submit the Form**:
    - Fill out the form with the necessary parameters and submit it to proceed with the transformation.
 <center>
-  <img src="./images/04_CIM_PIM.png" alt="Form" width="700">
+  <img src="./images/04_CIM_PIM.png" alt="Form" style="width: 100%">
 </center>
 
 5. **Transform the Model**:
    - After submitting the form, click the **"Transform"** button to generate the diagrams.net compatible **Platform Independent Model (PIM)**.
 <center>
-  <img src="./images/05_CIM_PIM.png" alt="Form" width="700">
+  <img src="./images/05_CIM_PIM.png" alt="Form" style="width: 100%">
 </center>
 
 6. **Download the Output**:
    - Once the transformation is complete, click the **"Download Output XML"** button to download the resulting PIM model.
 <center>
-  <img src="./images/06_CIM_PIM.png" alt="Form" width="700">
+  <img src="./images/06_CIM_PIM.png" alt="Form" style="width: 100%">
 </center>
 
 ### PIM to PSM Transformation
 <center>
-  <img src="./images/07_PIM_PSM.png" alt="Form" width="700">
+  <img src="./images/07_PIM_PSM.png" alt="Form" style="width: 100%">
 </center>
 
 1. **Change Mode**:
    - Select the appropriate **"PIM->PSM"** mode.
 <center>
-  <img src="./images/08_PIM_PSM.png" alt="Form" width="700">
+  <img src="./images/08_PIM_PSM.png" alt="Form" style="width: 100%">
 </center>
 
 2. **Upload Your PIM Model**:
@@ -75,7 +75,7 @@ You can access the tool at [localhost:5000](http://localhost:5000) after running
      - **MQTT** (work in progress, not fully implemented yet)
      - **Arduino** (work in progress, not fully implemented yet)
 <center>
-  <img src="./images/09_PIM_PSM.png" alt="Form" width="700">
+  <img src="./images/09_PIM_PSM.png" alt="Form" style="width: 100%">
 </center>
 
 4. **Apply Rules**:
