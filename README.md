@@ -19,42 +19,72 @@ This will automatically build the Docker container and start the service. You ca
 You can access the tool at [localhost:5000](http://localhost:5000) after running the Docker container.
 
 ### CIM to PIM Transformation (Default Mode)
+<center>
+  <img src="./images/01_CIM_PIM.png" alt="My Screenshot" width="700">
+</center>
 
 1. **Create Your iStar Model**:
    - First, create the iStar model of your CPS using the provided **diagrams.net scratchpad**. This scratchpad is designed specifically for creating **Computer Independent Models (CIM)** based on the iStar notation.
 
 2. **Load your iStar model**:
    - Once the iStar model is ready, click the **"Load Input XML"** button to upload your model (in XML format) into the tool.
+<center>
+  <img src="./images/02_CIM_PIM.png" alt="App UI" width="700">
+</center>
 
 3. **Apply Rules**:
    - After loading the model, click the **"Apply Rules"** button. This will trigger a form asking for user parameters relevant to the transformation, such as task input parameters, timing for Goals, etc.
+<center>
+  <img src="./images/03_CIM_PIM.png" alt="Loading Image" width="700">
+</center>
 
 4. **Submit the Form**:
    - Fill out the form with the necessary parameters and submit it to proceed with the transformation.
+<center>
+  <img src="./images/04_CIM_PIM.png" alt="Form" width="700">
+</center>
 
 5. **Transform the Model**:
    - After submitting the form, click the **"Transform"** button to generate the diagrams.net compatible **Platform Independent Model (PIM)**.
+<center>
+  <img src="./images/05_CIM_PIM.png" alt="Form" width="700">
+</center>
 
 6. **Download the Output**:
    - Once the transformation is complete, click the **"Download Output XML"** button to download the resulting PIM model.
+<center>
+  <img src="./images/06_CIM_PIM.png" alt="Form" width="700">
+</center>
 
 ### PIM to PSM Transformation
+<center>
+  <img src="./images/07_PIM_PSM.png" alt="Form" width="700">
+</center>
 
-1. **Upload Your PIM Model**:
+1. **Change Mode**:
+   - Select the appropriate **"PIM->PSM"** mode.
+<center>
+  <img src="./images/08_PIM_PSM.png" alt="Form" width="700">
+</center>
+
+2. **Upload Your PIM Model**:
    - Upload the PIM model generated in the previous phase by clicking the **"Load Input XML"** button.
 
-2. **Select Platform and Communication Technology**:
+3. **Select Platform and Communication Technology**:
    - Choose the **Platform** and **Communication Technology** from the dropdown menu. The available options are:
      - **MQTT** (work in progress, not fully implemented yet)
      - **Arduino** (work in progress, not fully implemented yet)
+<center>
+  <img src="./images/09_PIM_PSM.png" alt="Form" width="700">
+</center>
 
-3. **Apply Rules**:
+4. **Apply Rules**:
    - Click the **"Apply Rules"** button. This will bring up a form where you can enter additional parameters for the transformation.
 
-4. **Submit the Form**:
+5. **Submit the Form**:
    - Fill out the form with the required information and submit it to proceed with the transformation.
 
-5. **Transform the Model**:
+6. **Transform the Model**:
    - After submitting the form, click the **"Transform"** button to generate a non-diagrams.net compatible **intermediate model**.
    - Note: The PIM to PSM transformation is **not fully automated** in this version. The intermediate model is generated, but the source source code is not generated automatically from it.**.
 
