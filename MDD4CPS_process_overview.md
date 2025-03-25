@@ -67,3 +67,10 @@ These added attributes not only enrich functional details but also permit tracea
 >   - `dependum_data_structure`
 >   - `checkInterval_in_milliseconds`
 >   - `operationModes`
+
+# Illustrating Code Generation in the PSM Phase
+
+The following diagram illustrates the mapping between PIM constructs and the corresponding code segments generated during the PSM phase. Although the image does not delve into implementation details, it highlights how each construct in the model is transformed into source code.
+
+![Illustrating Code Generation in the PSM Phase](images/doc05_illustrating_code_generation.png)
+
