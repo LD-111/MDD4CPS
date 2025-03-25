@@ -36,7 +36,7 @@ The following table summarizes the technologies and tools used across each model
 The following table summarizes how design attributes are handled throughout the transformation process from CIM to PIM to PSM. For each construct, it shows which attributes are automatically captured (e.g., for traceability) and which require user input during transformation. It also highlights the final target representation, such as code artifacts in the PSM stage.
 
 ## Agents and goals tranformations
-![Summary of Transformations (CIM → PIM → PSM): Attributes Mapping](path/to/image.png)
+![Summary of Transformations (CIM → PIM → PSM): Attributes Mapping](images/doc02_agents_and_goals_transformation.svg)
 
 > **Note:** Before executing the PIM → PSM transformation, users may manually edit the PIM model (e.g., to adjust operation modes) using diagrams.net. However, no additional user input is required during the automatic transformation process.
 
