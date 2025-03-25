@@ -35,21 +35,15 @@ The following table summarizes the technologies and tools used across each model
 
 The following table summarizes how design attributes are handled throughout the transformation process from CIM to PIM to PSM. For each construct, it shows which attributes are automatically captured (e.g., for traceability) and which require user input during transformation. It also highlights the final target representation, such as code artifacts in the PSM stage.
 
-![Summary of Transformations (CIM → PIM → PSM): Agents and goals tranformations](images/doc02_agents_and_goals_transformation.svg)
-
-> **Note:** *Before executing the PIM → PSM transformation, users may manually edit the PIM model (e.g., to adjust operation modes) using diagrams.net. However, no additional user input is required during the automatic transformation process*.
-
-![Summary of Transformations (CIM → PIM → PSM): Tasks and refinements](images/doc02_agents_and_goals_transformation.svg)
-
-> **Note:**  *In the PSM phase, logical operations (AND/OR refinements) evaluate global boolean variables. Each structure—whether threads (Operational Goals) or functions (Actions)—updates its corresponding variable to indicate fulfillment status. The refinement logic combines these variables to determine the achievement of the parent element.*
-
+![Summary of Transformations (CIM → PIM → PSM): Agents, goals, tasks and refinements tranformations](images/doc02_agents_and_goals_transformation.svg)
 
 ![Summary of Transformations (CIM → PIM → PSM): Agents and goals tranformations](images/doc02_agents_and_goals_transformation.svg)
 
-> **Note:** Before executing the PIM → PSM transformation, users may manually edit the PIM model (e.g., to adjust operation modes) using diagrams.net. However, no additional user input is required during the automatic transformation process.
+> **Note:**
+> - *Before executing the PIM → PSM transformation, users may manually edit the PIM model (e.g., to adjust operation modes) using diagrams.net. However, no additional user input is required during the automatic transformation process.*
+> - *In the PSM phase, logical operations (AND/OR refinements) evaluate global boolean variables. Each structure—whether threads (Operational Goals) or functions (Actions)—updates its corresponding variable to indicate fulfillment status. The refinement logic combines these variables to determine the achievement of the parent element.*
+> - *Softgoals are not transformed as independent constructs in PIM. Instead, their influence is subsumed into related elements' attributes. This information is carried over to the PSM phase and incorporated as code comments to preserve traceability of quality concerns and contributions.*
+> - *The dependum element present in the CIM phase does not appear as an independent construct in the PIM and PSM phases. Instead, its data and behavior are subsumed into the Comm Thread and Comm Listener elements in PIM, and later materialized as a struct definition and communication logic in the generated source code.*
 
-![Summary of Transformations (CIM → PIM → PSM): Agents and goals tranformations](images/doc02_agents_and_goals_transformation.svg)
-
-> **Note:** Before executing the PIM → PSM transformation, users may manually edit the PIM model (e.g., to adjust operation modes) using diagrams.net. However, no additional user input is required during the automatic transformation process.
 
 
