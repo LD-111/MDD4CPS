@@ -45,5 +45,25 @@ The following table summarizes how design attributes are handled throughout the 
 > - *Softgoals are not transformed as independent constructs in PIM. Instead, their influence is subsumed into related elements' attributes. This information is carried over to the PSM phase and incorporated as code comments to preserve traceability of quality concerns and contributions.*
 > - *The dependum element present in the CIM phase does not appear as an independent construct in the PIM and PSM phases. Instead, its data and behavior are subsumed into the Comm Thread and Comm Listener elements in PIM, and later materialized as a struct definition and communication logic in the generated source code.*
 
+# Illustrating Transformation and Attribute Propagation in the CIM → PIM Phase
+To demonstrate the feasibility of this process, a basic CPS was implemented for greenhouse management. During the transformation from CIM to PIM, each construct receives additional attributes to ensure traceability, enhance functional details, and support later code generation. Specifically:
 
+- Agents are transformed into Cyber-Physical Components (CPCs) with added identifiers.
+- Goals and Tasks acquire attributes capturing their parent element, qualification and contribution relations, operation modes, and evaluation parameters.
+- Dependencies are transformed into communication constructs with attributes defining the message structure, timing behavior, and traceability. These added attributes ensure that all key design information is preserved and made explicit for subsequent phases.
 
+These added attributes not only enrich functional details but also permit traceability from CIM to PIM and subsequent phases.
+
+![Illustrating Transformation and Attribute Propagation in the CIM → PIM Phase](images/doc04_added_attributes_cim_pim.png)
+
+> **Note:**
+> * *An iStar 2.0 dependency relation is transformed into a communication process in the PIM phase, involving:*
+>   - Comm Thread (in CPC dependee)
+>   - Comm Listener (in CPC depender)
+>   - Comm Relations (links between elements)
+>
+> *Main added attributes to PIM constructs for dependency transformation:*
+>   - `id`, `name`, `cim_parent`
+>   - `dependum_data_structure`
+>   - `checkInterval_in_milliseconds`
+>   - `operationModes`
