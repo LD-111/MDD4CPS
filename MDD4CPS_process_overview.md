@@ -62,7 +62,7 @@ These added attributes not only enrich functional details but also permit tracea
 >   - Comm Listener (in CPC depender)
 >   - Comm Relations (links between elements)
 >
-> *Main added attributes to PIM constructs for dependency transformation:*
+> * *Main added attributes to PIM constructs for dependency transformation:*
 >   - `id`, `name`, `cim_parent`
 >   - `dependum_data_structure`
 >   - `checkInterval_in_milliseconds`
