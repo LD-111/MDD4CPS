@@ -37,7 +37,7 @@ The following table summarizes how design attributes are handled throughout the 
 
 ![Summary of Transformations (CIM → PIM → PSM): Agents, goals, tasks and refinements tranformations](images/doc02_agents_and_goals_transformation.svg)
 
-![Summary of Transformations (CIM → PIM → PSM): Quality, resources and dependencies tranformations](images/doc02_quality_resource_dependencies_transformation.svg)
+![Summary of Transformations (CIM → PIM → PSM): Quality, resources and dependencies tranformations](images/doc03_quality_resource_dependencies_transformation.svg)
 
 > **Note:**
 > - *Before executing the PIM → PSM transformation, users may manually edit the PIM model (e.g., to adjust operation modes) using diagrams.net. However, no additional user input is required during the automatic transformation process.*
