@@ -74,3 +74,9 @@ The following diagram illustrates the mapping between PIM constructs and the cor
 
 ![Illustrating Code Generation in the PSM Phase](images/doc05_illustrating_code_generation.png)
 
+
+# Illustrating Successful Execution of Generated and Customized Code on Arduino Hardware
+
+This image shows the execution of the generated and customized source code on Arduino hardware. It maps debug output lines to the corresponding PIM constructs, evidencing the runtime behavior of each generated structure. The goal is to illustrate that the generated code operates as expected on the target platform, validating the basic feasibility of the model-driven approach.
+
+![Illustrating Successful Execution of Generated and Customized Code on Arduino Hardware](images/doc06_illustrating_succesful_execution_on_hardware.png)
