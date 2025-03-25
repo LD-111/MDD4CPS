@@ -25,3 +25,9 @@ Optionally, the PIM model may be refined using diagrams.net with the DSL library
 ### Step 4 — Code Phase: Configuration, Manual Customization and Deployment
 
 The generated source code is adapted to the deployment environment in three steps. First, configuration parameters such as WiFi credentials and hardware pin assignments are set. Then, manual customization may be required—for example, adding logic to support specific operation modes. Finally, the adjusted code is deployed to the target hardware (e.g., Arduino MKR WiFi 1010) using the Arduino IDE, completing the development cycle.
+
+# Technologies and Tools per Modeling Phase
+The following table summarizes the technologies and tools used across each modeling phase of the proposed MDD process. It highlights the type of models, languages, and the availability of graphical and textual representations at each stage.
+
+![Technologies and Tools per Modeling Phase](images/doc01_tech_and_tools_per_modeling_phase.svg)
+
