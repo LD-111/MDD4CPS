@@ -24,7 +24,7 @@ You can access the tool at [localhost:5000](http://localhost:5000) after running
 </center>
 
 1. **Create Your iStar Model**:
-   - First, create the iStar model of your CPS using the provided **diagrams.net scratchpad**. This scratchpad is designed specifically for creating **Computer Independent Models (CIM)** based on the iStar notation.
+   - First, create the iStar model of your CPS using the provided **diagrams.net scratchpad**. This scratchpad is designed specifically for creating **Computation Independent Models (CIM)** based on the iStar notation.
 
 2. **Load your iStar model**:
    - Once the iStar model is ready, click the **"Load Input XML"** button to upload your model (in XML format) into the tool.
