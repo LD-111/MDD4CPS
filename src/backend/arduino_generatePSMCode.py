@@ -89,8 +89,8 @@ def generate_connection_to_topics(cpc):
         variables_array.append("// Connection and subscription to topics(Sender)")
 
         for comm_thread in comm_threads:
-            comm_thread_client = f"{process_name(comm_thread.get("name"))}MqttClient"
-            comm_thread_client_id = f"{process_name(comm_thread.get("name"))}ClientId"
+            comm_thread_client = f'{process_name(comm_thread.get("name"))}MqttClient'
+            comm_thread_client_id = f'{process_name(comm_thread.get("name"))}ClientId'
             variables_array.append(f'mqttSetup({comm_thread_client});')
             variables_array.append(f'connectToMQTT({comm_thread_client}, {comm_thread_client_id}, {process_name(comm_thread.get("name"))}_topic);')
     
@@ -98,8 +98,8 @@ def generate_connection_to_topics(cpc):
         variables_array.append("// Listener Topics(Receiver)")
 
         for listener_thread in listener_threads:
-            listener_thread_client = f"{process_name(listener_thread.get("name"))}MqttClient"
-            listener_thread_client_id = f"{process_name(listener_thread.get("name"))}ClientId"
+            listener_thread_client = f'{process_name(listener_thread.get("name"))}MqttClient'
+            listener_thread_client_id = f'{process_name(listener_thread.get("name"))}ClientId'
             variables_array.append(f'mqttSetup({listener_thread_client}, callback_{process_name(listener_thread.get("name"))});')
             variables_array.append(f'connectToMQTT({listener_thread_client}, {listener_thread_client_id}, {process_name(listener_thread.get("name"))}_topic);')
 
@@ -111,7 +111,7 @@ def generate_listener_thread_comments(listener_thread, cpc):
     listener_thread_name = listener_thread.get("name")
     listener_thread_id = listener_thread.get("id")
     original_element = listener_thread.get("name")  # Assuming the original element matches the name
-    transformed_function = f"{process_name(listener_thread_name)}()"  # Transform to function name format
+    transformed_function = f'{process_name(listener_thread_name)}()'  # Transform to function name format
     qualification_array = listener_thread.get("qualification_array")
     contribution_array = listener_thread.get("contribution_array")
     dependum = f'{process_name(listener_thread.get("name"))}_data_structure'
@@ -264,7 +264,7 @@ def generate_comm_thread_handles(cpc):
     comm_threads = cpc.findall("commThread")
     result = []
     for comm_thread in comm_threads:
-        result.append(f"TaskHandle_t TaskpublishDependum_{process_name(comm_thread.get("name"))};")
+        result.append(f'TaskHandle_t TaskpublishDependum_{process_name(comm_thread.get("name"))};')
 
     result_str = "\n".join(result)
     return result_str
@@ -273,7 +273,7 @@ def generate_listener_thread_handles(cpc):
     listener_threads = cpc.findall("listenerThread")
     result = []
     for listener_thread in listener_threads:
-        result.append(f"TaskHandle_t TaskreceiveDependum_{process_name(listener_thread.get("name"))};")
+        result.append(f'TaskHandle_t TaskreceiveDependum_{process_name(listener_thread.get("name"))};')
 
     result_str = "\n".join(result)
     return result_str
@@ -1317,5 +1317,4 @@ if(debug):
     print("CPS ID: ",CPS_id)
 
 process_cpcs(xml_file_path)
-
 
